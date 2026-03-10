@@ -2,6 +2,8 @@ package seedu.unitasker.tasklist;
 
 import java.util.ArrayList;
 
+import seedu.unitasker.task.Todo;
+
 public class CategoryList {
     private ArrayList<Category> categories;
 
@@ -13,10 +15,34 @@ public class CategoryList {
         categories.add(new Category(name));
     }
 
+    public void addTodo(int categoryIndex, String description) {
+        categories.get(categoryIndex).addTodo(new Todo(description));
+    }
+
     public void deleteCategory(int index) {
         categories.remove(index);
     }
 
+    public void deleteTodo(int categoryIndex, int todoIndex) {
+        categories.get(categoryIndex).deleteTodo(todoIndex);
+    }
+
+    public void markTodo(int categoryIndex, int todoIndex) {
+        categories.get(categoryIndex).markTodo(todoIndex);
+    }
+
+    public void unmarkTodo(int categoryIndex, int todoIndex) {
+        categories.get(categoryIndex).unmarkTodo(todoIndex);
+    }
+
+    public void reorderCategory(int categoryIndex1, int categoryIndex2) {
+        Category category = categories.remove(categoryIndex1);
+        categories.add(categoryIndex2, category);
+    }
+
+    public void reorderTodo(int categoryIndex, int todoIndex1, int todoIndex2) {
+        categories.get(categoryIndex).reorderTodo(todoIndex1, todoIndex2);
+    }
 
     public String toString() {
         String result = "";

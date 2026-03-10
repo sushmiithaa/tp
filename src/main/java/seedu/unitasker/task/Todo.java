@@ -20,7 +20,18 @@ public class Todo extends Task{
         this.priority = priority;
     }
 
+    private String drawPriority(int priority) {
+        String result = "";
+        for (int i = 0; i < priority; priority += 1) {
+            result += "*";
+        }
+        return result;
+    }
+
     public String toString() {
+        if (priority > 0) {
+            return "[" + getStatusIcon() + "] " + getDescription() + " [" + drawPriority(getPriority()) + "]";
+        }
         return "[" + getStatusIcon() + "] " + getDescription();
     }
 }
