@@ -1,6 +1,6 @@
 package seedu.duke.task;
 
-public class Todo extends Task{
+public class Todo extends Task {
     protected int priority;
 
     public Todo(String description) {
@@ -16,6 +16,7 @@ public class Todo extends Task{
     public int getPriority() {
         return priority;
     }
+
     public void setPriority(int priority) {
         this.priority = priority;
     }
@@ -34,7 +35,8 @@ public class Todo extends Task{
         }
         return "[" + getStatusIcon() + "] " + getDescription();
     }
-    public  String toFileFormat(){
+
+    public String toFileFormat() {
         int statusAsNumber = 0;
         if (isDone) {
             statusAsNumber = 1;

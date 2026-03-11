@@ -1,6 +1,7 @@
 package seedu.duke.calender;
 
 import seedu.duke.task.Deadline;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,5 +36,6 @@ public class Calendar {
                 System.out.println(d);
             }
         }
+
     }
 }
