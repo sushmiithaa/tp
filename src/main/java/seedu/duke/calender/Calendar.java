@@ -1,6 +1,5 @@
 package seedu.duke.calender;
 
-import seedu.duke.task.Deadline;
 import seedu.duke.task.Task;
 import seedu.duke.task.Timed;
 
