@@ -90,10 +90,11 @@ public class Storage {
 
                     int catIdx = getCategoryIndex(categoryList, catName);
                     categoryList.addDeadline(catIdx, desc, by);
-                    if (isDone)
+                    if (isDone) {
                         categoryList.setDeadlineStatus(catIdx,
                                 categoryList.getCategory(catIdx).getDeadlineList().getSize() - 1,
                                 true);
+                    }
                 }
             } catch (java.io.FileNotFoundException e) {
                 System.out.println("No existing Deadline file found.");
@@ -103,14 +104,18 @@ public class Storage {
 
     private boolean categoryExists(CategoryList list, String name) {
         for (int i = 0; i < list.getAmount(); i++) {
-            if (list.getCategory(i).getName().equals(name)) return true;
+            if (list.getCategory(i).getName().equals(name)) {
+                return true;
+            }
         }
         return false;
     }
 
     private int getCategoryIndex(CategoryList list, String name) {
         for (int i = 0; i < list.getAmount(); i++) {
-            if (list.getCategory(i).getName().equals(name)) return i;
+            if (list.getCategory(i).getName().equals(name)) {
+                return i;
+            }
         }
         return -1;
     }
