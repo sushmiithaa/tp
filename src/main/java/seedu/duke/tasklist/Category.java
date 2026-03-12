@@ -74,6 +74,14 @@ public class Category {
         return deadlineList;
     }
 
+    public void deleteAllDeadlines() {
+        deadlineList.clearAll();
+    }
+
+    public void sortDeadlines() {
+        deadlineList.sortByDate();
+    }
+
     @Override
     public String toString() {
         String result = "";
@@ -82,5 +90,4 @@ public class Category {
         result += "Deadlines:" + System.lineSeparator() + deadlineList.toString();
         return result;
     }
-
 }
