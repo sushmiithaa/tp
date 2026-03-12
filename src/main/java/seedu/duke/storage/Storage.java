@@ -67,7 +67,9 @@ public class Storage {
                         categoryList.markTodo(catIdx, categoryList.getCategory(catIdx).getTodoList().getSize() - 1);
                     }
                     int priorityInt = Integer.parseInt(priority);
-                    categoryList.setTodoPriority(catIdx, categoryList.getCategory(catIdx).getTodoList().getSize() - 1, priorityInt);
+                    categoryList.setTodoPriority(catIdx,
+                            categoryList.getCategory(catIdx).getTodoList().getSize() - 1,
+                            priorityInt);
 
                 }
             } catch (java.io.FileNotFoundException e) {
