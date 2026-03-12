@@ -1,8 +1,10 @@
 package seedu.duke;
 
 import org.junit.jupiter.api.Test;
+
 import seedu.duke.task.Deadline;
 import seedu.duke.tasklist.CategoryList;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -57,4 +59,5 @@ public class DeadlineTest {
         assertEquals(0, categoryList.getCategory(0).getDeadlineList().getSize());
     }
 }
+
 
