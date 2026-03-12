@@ -24,12 +24,17 @@ public class Event extends Task {
 
     public String toString() {
         DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        return super.toString() + " (from: " + from.format(displayFormatter) + " to: " + to.format(displayFormatter) + ")";
+        String fromFormatted = from.format(displayFormatter);
+        String toFormatted = to.format(displayFormatter);
+        return super.toString() + " (from: " + fromFormatted + " to: " + toFormatted + ")";
     }
 
     @Override
     public String toFileFormat() {
         DateTimeFormatter storageFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
-        return String.format("E | %d | %s | %s | %s", (isDone ? 1 : 0), description, from.format(storageFormatter), to.format(storageFormatter));
+        String fromFormatted = from.format(storageFormatter);
+        String toFormatted = to.format(storageFormatter);
+        return String.format("E | %d | %s | %s | %s", (isDone ? 1 : 0), description,
+                fromFormatted, toFormatted);
     }
 }

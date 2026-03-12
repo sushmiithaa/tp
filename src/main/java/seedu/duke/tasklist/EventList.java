@@ -1,6 +1,5 @@
 package seedu.duke.tasklist;
 
-import seedu.duke.task.Deadline;
 import seedu.duke.task.Event;
 
 public class EventList extends TaskList<Event>{

@@ -160,6 +160,7 @@ public class UniTasker {
             } catch (Exception e) {
                 System.out.println("Error: Could not add event. Check your input format.");
             }
+            break;
         default:
             break;
         }
@@ -225,8 +226,6 @@ public class UniTasker {
 
                 if (sentence.length > 4 && sentence[4].equalsIgnoreCase("/deadline")) {
                     calendar.displaySpecificTypeInRange(start, end, Deadline.class);
-                } else if (sentence.length > 4 && sentence[4].equalsIgnoreCase("/event")) {
-                    //calendar.displaySpecificTypeInRange(start, end, Event.class);
                 } else {
                     calendar.displayRange(start, end);
                 }

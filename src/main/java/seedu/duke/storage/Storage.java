@@ -6,7 +6,6 @@ import seedu.duke.tasklist.CategoryList;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Storage {
@@ -134,7 +133,8 @@ public class Storage {
                     int catIdx = getCategoryIndex(categoryList, catName);
                     categoryList.addEvent(catIdx,desc,from,to);
                     if (isDone) {
-                        categoryList.setEventStatus(catIdx, categoryList.getCategory(catIdx).getEventList().getSize() - 1,true);
+                        categoryList.setEventStatus(catIdx,
+                                categoryList.getCategory(catIdx).getEventList().getSize() - 1, true);
                     }
                 }
             } catch (java.io.FileNotFoundException e) {
