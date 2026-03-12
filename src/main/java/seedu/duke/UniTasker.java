@@ -15,7 +15,7 @@ import seedu.duke.tasklist.CategoryList;
 public class UniTasker {
     private static CategoryList categories = new CategoryList();
     private static Calendar calendar = new Calendar();
-    private static Storage storage = new Storage("todos.txt", "deadlines.txt");
+    private static Storage storage = new Storage("todos.txt", "deadlines.txt","events.txt");
 
     UniTasker() {
         storage.load(categories);
@@ -36,6 +36,15 @@ public class UniTasker {
             break;
         case "deadline":
             categories.setDeadlineStatus(categoryIndex, taskIndex, isMark);
+            break;
+        case "event":
+            categories.setEventStatus(categoryIndex, taskIndex, isMark);
+            if (isMark) {
+                System.out.println("This task is marked as done:");
+            } else {
+                System.out.println("This task is marked as not done:");
+            }
+            System.out.println(categories.getEvent(categoryIndex,taskIndex));
             break;
         default:
             break;
@@ -64,6 +73,17 @@ public class UniTasker {
                     int deadlineIndex = Integer.parseInt(sentence[3]) - 1;
                     categories.deleteDeadline(categoryIndex, deadlineIndex);
                     System.out.println("Deleted deadline " + (deadlineIndex + 1)
+                            + " from category " + (categoryIndex + 1));
+                }
+                break;
+            case "event":
+                if (sentence[3].equalsIgnoreCase("all")) {
+                    categories.deleteAllEvents(categoryIndex);
+                    System.out.println("All events in this category have been deleted.");
+                } else {
+                    int eventIndex = Integer.parseInt(sentence[3]) - 1;
+                    categories.deleteEvent(categoryIndex, eventIndex);
+                    System.out.println("Deleted event " + (eventIndex + 1)
                             + " from category " + (categoryIndex + 1));
                 }
                 break;
@@ -117,6 +137,25 @@ public class UniTasker {
                 System.out.println("Error: Could not add deadline. Check your input format.");
             }
             break;
+        case "event":
+            try {
+                int eventCategoryIndex = getCategoryIndex(sentence);
+                String raw = String.join(" ", Arrays.copyOfRange(sentence, 3, sentence.length));
+                String[] eventDetails = raw.split(" /from ");
+                String[] eventTimeDetails = eventDetails[1].split(" /to ");
+
+                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+                java.time.LocalDateTime from = java.time.LocalDateTime.parse(eventTimeDetails[0], inputFormatter);
+                java.time.LocalDateTime to = java.time.LocalDateTime.parse(eventTimeDetails[1], inputFormatter);
+
+                categories.addEvent(eventCategoryIndex, eventDetails[0], from,to);
+                System.out.println("This event has been added:");
+                System.out.println(categories.getLatestEvent(eventCategoryIndex));
+            } catch (java.time.format.DateTimeParseException e) {
+                System.out.println("Error: Use format yyyy-MM-dd HHmm (e.g., 2026-03-11 1830)");
+            } catch (Exception e) {
+                System.out.println("Error: Could not add event. Check your input format.");
+            }
         default:
             break;
         }
@@ -171,6 +210,9 @@ public class UniTasker {
             break;
         case "deadline":
             System.out.println(categories.getAllDeadlines());
+            break;
+        case "event":
+            System.out.println(categories.getAllEvents());
             break;
         case "range":
             try {
