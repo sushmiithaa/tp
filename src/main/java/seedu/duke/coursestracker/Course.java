@@ -141,3 +141,4 @@ public class Course {
         return courseCode + " (" + assessments.size() + " assessment(s))";
     }
 }
+
