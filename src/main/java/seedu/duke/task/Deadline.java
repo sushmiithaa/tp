@@ -3,6 +3,12 @@ package seedu.duke.task;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents a task with a specific deadline.
+ * A Deadline task includes a description and a date/time by which
+ * the task must be completed. It implements the {@link Timed} interface to
+ * allow for chronological sorting and calendar integration.
+ */
 public class Deadline extends Task implements Timed {
     protected LocalDateTime by;
 
@@ -11,6 +17,9 @@ public class Deadline extends Task implements Timed {
         this.by = by;
     }
 
+    /**
+     * Gets the deadline date and time.
+     */
     public LocalDateTime getBy() {
         return by;
     }
@@ -27,6 +36,12 @@ public class Deadline extends Task implements Timed {
         return "[D]" + super.toString() + " (by: " + by.format(displayFormatter) + ")";
     }
 
+    /**
+     * Retrieves the date/time associated with this task for calendar synchronization.
+     * This uses the {@link Timed} interface.
+     *
+     * @return The deadline (by) date and time.
+     */
     @Override
     public LocalDateTime getDate() {
         return by; // This satisfies the Timed interface

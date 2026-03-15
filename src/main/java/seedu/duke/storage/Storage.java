@@ -8,6 +8,11 @@ import java.io.IOException;
 import java.io.File;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Handles the loading and saving of task data to local text files.
+ * This class ensures that user data persists across different sessions by
+ * serializing {@code CategoryList} objects into a readable pipe-delimited format.
+ */
 public class Storage {
     private String todoFilePath;
     private String deadlineFilePath;
@@ -19,6 +24,13 @@ public class Storage {
         this.eventFilePath = eventPath;
     }
 
+    /**
+     * Serializes and writes the current state of the {@code CategoryList} to the disk.
+     * Overwrites existing files with the updated task information.
+     *
+     * @param categoryList The list of categories and tasks to save.
+     * @throws IOException If there is an error writing to any of the files.
+     */
     public void save(CategoryList categoryList) throws IOException {
         FileWriter todoWriter = new FileWriter(todoFilePath);
         FileWriter deadlineWriter = new FileWriter(deadlineFilePath);
@@ -48,6 +60,12 @@ public class Storage {
         eventWriter.close();
     }
 
+    /**
+     * Reads task data from the local storage files and populates the provided {@code CategoryList}.
+     * If a file does not exist, it skips that specific loading process.
+     *
+     * @param categoryList The list to be populated with data from the files.
+     */
     public void load(CategoryList categoryList) {
         File todoFile = new File(todoFilePath);
         File deadlineFile = new File(deadlineFilePath);
