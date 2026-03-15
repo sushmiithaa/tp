@@ -25,12 +25,12 @@ import seedu.duke.util.DateUtils;
 
 
 public class UniTasker {
+    public static final Logger LOGGER = Logger.getLogger(UniTasker.class.getName());
     private static CategoryList categories = new CategoryList();
     private static Calendar calendar = new Calendar();
     private static Storage storage = new Storage("todos.txt", "deadlines.txt", "events.txt");
     private static CourseManager courseManager;
     private static CourseParser courseParser;
-    public static final Logger logger = Logger.getLogger(UniTasker.class.getName());
 
     public UniTasker() {
         try {
@@ -346,7 +346,7 @@ public class UniTasker {
     }
 
     public void run() {
-        logger.info("UniTasker session started.");
+        LOGGER.info("UniTasker session started.");
         System.out.println("Welcome to UniTasker");
         Scanner in = new Scanner(System.in);
         while (true) {
@@ -397,7 +397,7 @@ public class UniTasker {
                     break;
                 }
             } catch (Throwable t) {
-                logger.log(Level.SEVERE, "Internal Error", t);
+                LOGGER.log(Level.SEVERE, "Internal Error", t);
                 System.out.println("Oops! An error occurred, but I'm still running. Try again.");
             }
         }
@@ -413,7 +413,7 @@ public class UniTasker {
             System.out.println("Error: File write failed.");
         } catch (Exception e) {
             // This catches the NullPointerExceptions that are currently killing your JAR
-            logger.log(Level.SEVERE, "Internal error during save", e);
+            LOGGER.log(Level.SEVERE, "Internal error during save", e);
         }
     }
 
