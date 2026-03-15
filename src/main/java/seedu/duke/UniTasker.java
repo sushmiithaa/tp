@@ -1,18 +1,19 @@
 package seedu.duke;
 
-import static seedu.duke.tasklist.CategoryList.refreshCalendar;
-
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.time.format.DateTimeFormatter;
+
 import java.util.Arrays;
 import java.util.Scanner;
-import java.time.format.DateTimeFormatter;
 
 import seedu.duke.calender.Calendar;
 import seedu.duke.storage.Storage;
 import seedu.duke.task.Deadline;
 import seedu.duke.task.Event;
 import seedu.duke.tasklist.CategoryList;
+import static seedu.duke.tasklist.CategoryList.refreshCalendar;
 
 import seedu.duke.coursestracker.CourseException;
 import seedu.duke.coursestracker.CourseManager;
@@ -102,7 +103,7 @@ public class UniTasker {
                 }
                 break;
             default:
-                System.out.println("Unknown delete command. Use: delete category/todo/deadline [index]");
+                System.out.println("Unknown delete command. Use: delete category/todo/deadline/event [index]");
                 break;
             }
             saveData();
@@ -138,15 +139,25 @@ public class UniTasker {
                 int deadlineCatIdx = getCategoryIndex(sentence);
                 String raw = String.join(" ", Arrays.copyOfRange(sentence, 3, sentence.length));
                 String[] parts = raw.split(" /by ");
-                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
-                java.time.LocalDateTime by = java.time.LocalDateTime.parse(parts[1], inputFormatter);
+
+                // Parse and validate (Handles 2026 limit and date-only fallback)
+                LocalDateTime by = Deadline.parseDateTime(parts[1]);
                 categories.addDeadline(deadlineCatIdx, parts[0], by);
                 Deadline newDeadline = categories.getCategory(deadlineCatIdx).getDeadlineList().getLatest();
                 if (newDeadline != null) {
                     calendar.registerTask(newDeadline);
                 }
+
+                System.out.println("____________________________________________________________");
+                System.out.println(" Got it. I've added this deadline to category: "
+                        + categories.getCategory(deadlineCatIdx).getName());
+                System.out.println("   " + newDeadline);
+                int count = categories.getCategory(deadlineCatIdx).getDeadlineList().getSize();
+                System.out.println(" Now you have " + count + " deadlines in this category.");
+                System.out.println("____________________________________________________________");
+                
             } catch (java.time.format.DateTimeParseException e) {
-                System.out.println("Error: Use format yyyy-MM-dd HHmm (e.g., 2026-03-11 1830)");
+                System.out.println("Error: " + e.getMessage());
             } catch (Exception e) {
                 System.out.println("Error: Could not add deadline. Check your input format.");
             }
