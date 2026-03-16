@@ -306,15 +306,30 @@ public class UniTasker {
     }
 
     public static void handlePriority(String[] sentence) {
+        if (sentence.length <= 4) {
+            System.out.println("Insufficient arguments for priority command");
+            return;
+        }
         String secondCommand = sentence[1];
         switch (secondCommand) {
         case "todo":
-            int categoryIndex = getCategoryIndex(sentence);
-            int todoIndex = Integer.parseInt(sentence[3]) - 1;
-            int priority = Integer.parseInt(sentence[4]);
-            categories.setTodoPriority(categoryIndex, todoIndex, priority);
+            try {
+                int categoryIndex = getCategoryIndex(sentence);
+                int todoIndex = Integer.parseInt(sentence[3]) - 1;
+                int priority = Integer.parseInt(sentence[4]);
+                if (priority < 0 || priority > 5) {
+                    throw new UniTaskerException("Out of priority range allowed (0-5)");
+                }
+                categories.setTodoPriority(categoryIndex, todoIndex, priority);
+                System.out.println("Priority of [" +
+                        categories.getCategory(categoryIndex).getTodo(todoIndex).getDescription() +
+                        "] set to " + priority);
+            } catch (Exception e) {
+                System.out.println("priority todo failed: " + e.getMessage());
+            }
             break;
         default:
+            System.out.println("Unknown priority command: try todo");
             break;
         }
         saveData();

@@ -87,7 +87,13 @@ public class CategoryList {
         categories.get(categoryIndex).reorderTodo(todoIndex1, todoIndex2);
     }
 
-    public void setTodoPriority(int categoryIndex, int todoIndex, int priority) {
+    public void setTodoPriority(int categoryIndex, int todoIndex, int priority) throws UniTaskerException {
+        if (categoryIndex >= this.getAmount() || categoryIndex < 0 ) {
+            throw new UniTaskerException("categoryIndex does not exist.");
+        }
+        if (todoIndex >= categories.get(categoryIndex).getTodoList().getSize() || todoIndex < 0) {
+            throw new UniTaskerException("todoIndex does not exist.");
+        }
         categories.get(categoryIndex).setTodoPriority(todoIndex, priority);
     }
 
