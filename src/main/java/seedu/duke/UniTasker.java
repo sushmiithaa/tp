@@ -293,13 +293,16 @@ public class UniTasker {
                 System.out.println(categories.getLatestEvent(eventCategoryIndex).toString());
                 System.out.println(DOTTED_LINE);
 
-            } catch (DateTimeParseException | IllegalDateException | IndexOutOfBoundsException e) {
+            } catch (DateTimeParseException | IllegalDateException
+                     | IndexOutOfBoundsException| NumberFormatException e) {
                 System.out.println("Error: Use format yyyy-MM-dd HHmm (e.g., 2026-03-11 1830) " +
                         "and follow this format: add event <categoryIndex> <description> " +
                         "/from <startDateTime> /to <endDateTime>");
             } catch (UniTaskerException e) {
                 System.out.println("Error: Could not add event. Check your input format.");
                 System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Error occurred");
             }
             break;
         case "recurring":
