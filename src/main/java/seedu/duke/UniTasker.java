@@ -767,10 +767,10 @@ public class UniTasker {
 //                return;
 //            }
 //        } //else if (System.console() == null) {
-////            // Default for CI/no input environment
-////            endYear = LocalDate.now().getYear() + 1;
-////            dailyTaskLimit = 5; // sensible defaults
-////            System.out.println("No input detected. Using default config for CI: Range " + startYear + "-" + endYear);
+//            // Default for CI/no input environment
+//            endYear = LocalDate.now().getYear() + 1;
+//            dailyTaskLimit = 5; // sensible defaults
+//            System.out.println("No input detected. Using default config for CI: Range " + startYear + "-" + endYear);
 //        /*}*/
 //        else {
 //            Scanner setupScanner = new Scanner(System.in);
