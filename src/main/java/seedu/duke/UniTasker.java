@@ -593,6 +593,7 @@ public class UniTasker {
 
         case "limit":
             System.out.println(DOTTED_LINE);
+            System.out.println("Current Year Range: " + startYear + " to " + endYear);
             System.out.println("Current daily task limit: " + dailyTaskLimit);
             System.out.println(DOTTED_LINE);
             break;
