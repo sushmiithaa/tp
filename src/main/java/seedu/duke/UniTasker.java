@@ -466,7 +466,7 @@ public class UniTasker {
                 if (sentence.length <= 4) {
                     throw new UniTaskerException("Insufficient arguments.");
                 }
-                int categoryIndex = Integer.parseInt(sentence[2]) - 1;
+                int categoryIndex = getCategoryIndex(sentence);
                 int todoIndex1 = Integer.parseInt(sentence[3]) - 1;
                 int todoIndex2 = Integer.parseInt(sentence[4]) - 1;
                 categories.reorderTodo(categoryIndex, todoIndex1, todoIndex2);

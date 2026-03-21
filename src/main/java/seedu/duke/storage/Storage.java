@@ -160,7 +160,7 @@ public class Storage {
                     try {
                         by = DateUtils.parseDateTimeFromFile(dateString);
                     } catch (IllegalDateException e) {
-                        logger.warning( "Skipping line " + lineCount + " - Reason:" + e.getMessage());
+                        logger.warning("Skipping line " + lineCount + " - Reason:" + e.getMessage());
                         continue;
                     }
 
@@ -220,7 +220,7 @@ public class Storage {
                     }
 
                     int catIdx = getCategoryIndex(categoryList, catName);
-                    if (!recurringId.isEmpty() && parts[1].equals("RE")){
+                    if (!recurringId.isEmpty() && parts[1].equals("RE")) {
                         try {
                             int recurringGroupId = Integer.parseInt(recurringId);
                             categoryList.addRecurringWeeklyEventFile(catIdx, desc, from, to, recurringGroupId);
