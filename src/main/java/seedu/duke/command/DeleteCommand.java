@@ -74,7 +74,8 @@ public class DeleteCommand implements Command {
                 int groupIndex = Integer.parseInt(sentence[3]);
                 Event eventToDelete = container.getCategories().findRecurringEventToDelete(categoryIndex, groupIndex);
                 if (eventToDelete == null) {
-                    throw new UniTaskerException("Choose a positive integer that represents the group number that belongs to the category");
+                    throw new UniTaskerException("Choose a positive integer that represents" +
+                            " the group number that belongs to the category");
                 }
                 container.getCategories().deleteRecurringEvent(categoryIndex, groupIndex);
                 EventUi.printRecurringEventDeleted(eventToDelete);
