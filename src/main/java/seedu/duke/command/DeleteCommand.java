@@ -50,6 +50,7 @@ public class DeleteCommand implements Command {
                 container.getCategories().deleteTodo(categoryIndex, todoIndex);
                 TaskUi.printTaskAction("Deleted", "todo", todoName);
                 break;
+            //@@author WenJunYu5984
             case "deadline":
                 if (sentence[3].equalsIgnoreCase("all")) {
                     container.getCategories().deleteAllDeadlines(categoryIndex);
@@ -60,6 +61,7 @@ public class DeleteCommand implements Command {
                     DeadlineUi.printItemDeleted("deadline", deadlineIndex, categoryIndex);
                 }
                 break;
+            //@@author sushmiithaa
             case "event":
                 if (sentence[3].equalsIgnoreCase("all")) {
                     container.getCategories().deleteAllEvents(categoryIndex);
@@ -80,6 +82,7 @@ public class DeleteCommand implements Command {
                 container.getCategories().deleteRecurringEvent(categoryIndex, groupIndex);
                 EventUi.printRecurringEventDeleted(eventToDelete);
                 break;
+            //@@author
             default:
                 ErrorUi.printUnknownCommand("delete",
                         "category/todo/deadline/event [index] or delete recurring [category index] [group number]");

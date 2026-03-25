@@ -57,6 +57,7 @@ public class MarkCommand implements Command {
         }
     }
 
+    //@@author WenJunYu5984
     private void handleDeadline(AppContainer container) {
         try {
             int categoryIndex = CommandSupport.getCategoryIndex(container, sentence);
@@ -68,6 +69,7 @@ public class MarkCommand implements Command {
         }
     }
 
+    //@@author sushmiithaa
     private void handleEvent(AppContainer container) {
         try {
             int categoryIndex = CommandSupport.getCategoryIndex(container, sentence);

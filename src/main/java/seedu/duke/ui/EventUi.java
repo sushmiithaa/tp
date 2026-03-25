@@ -2,6 +2,7 @@ package seedu.duke.ui;
 
 import seedu.duke.task.Event;
 
+//@@author sushmiithaa
 public class EventUi {
 
     public static void printEventAdded(Event event, String categoryName, int count) {
