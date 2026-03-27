@@ -4,10 +4,66 @@
 
 {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
 
-## Design & implementation
-
 {Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
 
+## Design
+
+### Architecture
+
+![MainArchitecture]()
+
+The **Architecture Diagram** given above explains the high-level design of the App
+
+Given below is a quick overview of the main components and how they interact with each other.
+
+**Main components of the architecture**
+
+UniTasker is in charge of the app launch and shut down
+- At app launch, it initializes the other components.
+- At shut down, it shuts down the other components.
+
+The bulk of the app's work is done by the following components:
+- Command: 
+- UI:
+- AppContainer:
+- Storage:
+
+**How the architecture components interact with each other:**
+
+![ReorderCommand](/docs/pictures/ReorderTodoSequenceDiagram.png)
+
+1. User enters command in terminal
+2. xx
+3. xx
+
+**AppContainer component**
+
+The `AppContainer` consists of the following:
+
+- `CategoryList categories` – stores all categories and their associated tasks (todos, deadlines, events)
+- `Calendar calendar` – Manages the mapping of dates to tasks with date information (deadlines and events) ???
+- `Storage storage` – handles saving and loading of data from local files
+- `CourseParser courseParser` – processes course-related commands
+- `int dailyTaskLimit` – defines the maximum number of tasks allowed per day
+- `int startYear` – lower bound for valid date ranges
+- `int endYear` – upper bound for valid date ranges
+
+The `AppContainer` component,
+- Stores all the information required for the application in a single object
+- Enables commands to operate without directly depending on global/static variables
+
+**Storage component**
+
+**UI component**
+
+**Command component**
+
+
+
+
+## Implementation
+
+**TaskValidator**
 
 ## Product scope
 ### Target user profile
