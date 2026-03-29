@@ -32,8 +32,8 @@ Added JUnit tests for the following classes:
 
 **Developer Guide Contributions**
 
-- Added implementation details for `deadline`
-- Added implementation details for TaskValidation and DateUtils 
+- Added implementation details for `deadline` using a class diagram
+- Added implementation details for TaskValidation and DateUtils using sequence diagrams
 
 **User Guide Contributions**
 

@@ -273,6 +273,8 @@ public class Storage {
                     case "dailyTaskLimit":
                         setDailyTaskLimit(Integer.parseInt(parts[1]));
                         break;
+                    default:
+                        logger.warning("Unknown setting key: " + parts[0]);
                     }
                 }
             }
