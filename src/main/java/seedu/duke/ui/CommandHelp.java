@@ -234,7 +234,10 @@ public class CommandHelp {
                 "  delete event <cat_idx> all\n" +
                 "\n" +
                 "RECURRING:\n" +
-                "  delete recurring <cat_idx> <group_num>\n" +
+                "  delete recurring <cat_idx> <idx>\n" +
+                "\n" +
+                "OCCURRENCE:\n" +
+                "  delete occurrence <cat_idx> <idx>\n" +
                 "\n" +
                 "COURSES:\n" +
                 "  course delete <code>\n" +
@@ -262,8 +265,11 @@ public class CommandHelp {
                 "  list deadline                - List all deadlines\n" +
                 "\n" +
                 "EVENTS:\n" +
-                "  list event                   - List all events\n" +
+                "  list event                   - List events with recurring events collapsed to one group\n" +
+                "  list event /all              - List all events\n" +
+                "  list event /normal           - List only non-recurring events\n" +
                 "  list recurring               - List recurring events\n" +
+                "  list occurrence              - List occurrence of recurring event group\n" +
                 "\n" +
                 "DATE RANGES (all types):\n" +
                 "  list range <start> <end>           - All tasks in range\n" +
