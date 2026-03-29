@@ -60,8 +60,7 @@ public class UniTasker {
         GeneralUi.printWelcome(startYear, endYear, dailyTaskLimit, isTestMode);
 
         AppContainer container = new AppContainer(
-                categories, calendar, storage, courseParser,
-                dailyTaskLimit, startYear, endYear
+                categories, calendar, storage, courseParser
         );
 
         CommandParser parser = new CommandParser();
@@ -99,6 +98,7 @@ public class UniTasker {
         new UniTasker().run(isTestMode);
     }
 
+    //@@author WenJunYu5984
     public static int getEndYear() {
         return endYear;
     }
@@ -116,7 +116,6 @@ public class UniTasker {
         return startYear;
     }
 
-    //@@author WenJunYu5984
     public static void setDailyTaskLimit(int newLimit) {
         dailyTaskLimit = newLimit;
         LimitUi.printDailyTaskLimitUpdated(dailyTaskLimit);
