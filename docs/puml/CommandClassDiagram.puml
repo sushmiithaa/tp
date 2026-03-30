@@ -1,30 +1,38 @@
 @startuml
+skinparam classAttributeIconSize 0
+skinparam CircledCharacterFontSize 0
+skinparam CircledCharacterRadius 0
+skinparam class {
+    BackgroundColor White
+    BorderColor Black
+    ArrowColor Black
+}
 
-package ":Command" {
+package "command" {
 
-interface ":Command" as Command {
+interface Command <<interface>> {
     + execute(container: AppContainer)
 }
 
-class ":CommandParser" as CommandParser {
+class "CommandParser" as CommandParser {
     + parse(line: String): Command
 }
 
-class ":CommandSupport" as CommandSupport {
+class "CommandSupport" as CommandSupport {
     {static} + saveData(container: AppContainer)
     {static} + getCategoryIndex(container: AppContainer, sentence: String[]): int
 }
 
-class ":XYZCommand" as XYZCommand {
+class "XYZCommand" as XYZCommand {
 }
 
 }
 
-class ":AppContainer" as AppContainer
+class "AppContainer" as AppContainer
 
-class ":UniTasker" as UniTasker
-class ":UI" as UI
-class ":Storage" as Storage
+class "UniTasker" as UniTasker
+class "UI" as UI
+class "Storage" as Storage
 
 UniTasker ..> CommandParser
 

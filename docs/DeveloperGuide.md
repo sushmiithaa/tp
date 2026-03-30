@@ -4,7 +4,7 @@
 
 {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
 
-This project was built from scratch by the UniTasker team. The following thrid-party libraries and references were consulted during development:
+This project was built from scratch by the UniTasker team. The following third-party libraries and references were consulted during development:
 - Java SE 17 Standard Library
 - JUnit 5
 - PlantUML
@@ -17,14 +17,14 @@ This section describes the design and implementation of the key components of Un
 
 ### Architecture
 
-![MainArchitecture]()
+![MainArchitecture](/docs/pictures/MainArchitecture.png)
 
 The **Architecture Diagram** given above explains the high-level design of the App
 
 **Main components of the architecture**
 
 UniTasker is in charge of the app launch and shut down
-- At app launch, it initializes the other components.
+- At app launch, it initializes the other components and repeatedly waits for user inputs.
 - At shut down, it shuts down the other components.
 
 The bulk of the app's work is done by the following components:
@@ -226,6 +226,12 @@ can accomplish most of the tasks faster using commands than using the mouse.
 
 * *Mainstream OS* - Windows, Linux, Unix, MacOS
 
-## Instructions for manual testing
+## Instructions for Manual Testing
 
-{Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
+### Adding Todos
+
+1. Launch the application.
+2. Ensure at least one category exists. If not, create one: `add category School`
+3. Add a todo to a category: `add todo 1 finish tutorial`
+4. Add a todo with priority: `add todo 1 reply email /p 5`
+5. Verify that the todo appears under the School category using: `list category`  
