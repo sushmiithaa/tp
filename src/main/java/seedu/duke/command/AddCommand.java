@@ -105,18 +105,77 @@ public class AddCommand implements Command {
     private void handleAddTodo(AppContainer container) {
         try {
             int todoCatIdx = CommandSupport.getCategoryIndex(container, sentence);
+
             if (sentence.length < ADD_TODO_MIN_LENGTH) {
                 throw new UniTaskerException("Empty description.");
             }
-            String[] descriptionArr = Arrays.copyOfRange(sentence, INDEX_OF_TASK_INFO, sentence.length);
-            String description = String.join(" ", descriptionArr).trim();
+
+            int priority = 0;
+            int priorityFlagIndex = -1;
+
+            // find optional /p
+            for (int i = INDEX_OF_TASK_INFO; i < sentence.length; i++) {
+                if (sentence[i].equals("/p")) {
+                    priorityFlagIndex = i;
+                    break;
+                }
+            }
+
+            String description;
+
+            if (priorityFlagIndex == -1) {
+                // normal add todo
+                String[] descriptionArr = Arrays.copyOfRange(sentence, INDEX_OF_TASK_INFO, sentence.length);
+                description = String.join(" ", descriptionArr).trim();
+            } else {
+                // add todo with priority
+                if (priorityFlagIndex == INDEX_OF_TASK_INFO) {
+                    throw new UniTaskerException("Empty description.");
+                }
+                if (priorityFlagIndex == sentence.length - 1) {
+                    throw new UniTaskerException("Missing priority after /p.");
+                }
+
+                String[] descriptionArr = Arrays.copyOfRange(sentence, INDEX_OF_TASK_INFO, priorityFlagIndex);
+                description = String.join(" ", descriptionArr).trim();
+
+                try {
+                    priority = Integer.parseInt(sentence[priorityFlagIndex + 1]);
+                } catch (NumberFormatException e) {
+                    throw new UniTaskerException("Priority must be an integer.");
+                }
+
+                if (priority < 0 || priority > 5) {
+                    throw new UniTaskerException("Priority must be between 0 and 5.");
+                }
+
+                if (priorityFlagIndex != sentence.length - 2) {
+                    throw new UniTaskerException("Invalid format. Priority should be the last argument.");
+                }
+            }
+
+            if (description.isEmpty()) {
+                throw new UniTaskerException("Empty description.");
+            }
 
             TaskValidator.validateUniqueTask(container.categories(), todoCatIdx, description);
+
             container.categories().addTodo(todoCatIdx, description);
+            if (priorityFlagIndex != -1) {
+                int newTodoIndex = container.categories()
+                        .getCategory(todoCatIdx)
+                        .getTodoList()
+                        .getSize() - 1;
+                container.categories().setTodoPriority(todoCatIdx, newTodoIndex, priority);
+                TaskUi.printTaskAction("Added", "todo", description
+                        + " with priority " + priority);
+                return;
+            }
+
             TaskUi.printTaskAction("Added", "todo", description);
         } catch (Exception e) {
             ErrorUi.printCommandFailed("add todo", e.getMessage(),
-                    "add todo [categoryIndex] [description]");
+                    "add todo [categoryIndex] [description] /p [priority]");
         }
     }
 
