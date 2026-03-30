@@ -60,14 +60,17 @@ add category School
 
 Adds a todo item under a specific category.
 
-Format: `add todo [categoryIndex] [description]`
+Format: `add todo [categoryIndex] [description] /p [priorityValue]`
 
 - `categoryIndex`: Integer value corresponding to the category
 - `description`: Description of the task
+- `/p`: Optional priority flag to add a todo with set priority value. Default value is 0.
+- `priorityValue`: Integer value for priority. Only 0 to 5 inclusive is allowed.
 
-**Example:**
+**Examples:**
 
-add todo 1 finish tutorial
+add todo 1 finish tutorial  
+add todo 1 reply email /p 5
 
 ---
 
