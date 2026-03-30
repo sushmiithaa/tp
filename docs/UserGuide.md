@@ -7,18 +7,15 @@ Command Line Interface (CLI).
 
 ## Quick Start
 
-{Give steps to get started quickly}
-
 1. Ensure that you have Java 17 or above installed.
 2. Down the latest version of `UniTasker` from [here](http://link.to/duke).
 3. Copy the file to the folder you want to use as the home folder for your UniTasker
 4. Open a command terminal, `cd` into the folder you put the jar file in, and
 use the `java -jar UniTasker.jar` command to run the application
 5. Type a command in the command box and press Enter to execute it.
+6. It is recommended to use the `add category` command first as tasks can only be added inside a category.
 
 ## Features 
-
-{Give detailed description of each feature}
 
 ### Add Command: `add`
 
@@ -98,6 +95,10 @@ Adds an event with a start and end time.
 Format: `add event [categoryIndex] [description] /from [start] /to [end]`
 
 - `categoryIndex`: Integer value corresponding to the category
+- `description`: Description of the event
+- `/from`: Keyword indicating event start time
+- `/to`: Keyword indicating event end time
+- `start` and `end`: Format `dd-MM-yyyy HHmm`
 - `description`: Description of the event
 - `/from`: Start date and time
 - `/to`: End date and time
@@ -284,17 +285,17 @@ is located in the other computer.
 
 ## Command Summary
 
-| Action      | Format, Examples  | 
-|-------------|-------------------|
-| help        | `help`            |
-| add         | `add [keyword]`   |
-| delete      | `add [keyword]`   |
-| list        | `add [keyword]`   |
-| mark/unmark | `add [keyword]`   |
-| reorder     | `add [keyword]`   |
-| priority    | `add [keyword]`   |
-| sort        | `add [keyword]`   |
-| find        | `add [keyword]`   |
-| course      | `add [keyword]`   |
-| limit       | `limit [keyword]` |
+| Action      | Format, Examples                                                                               | 
+|-------------|------------------------------------------------------------------------------------------------|
+| help        | `help`                                                                                         |
+| add         | `add category [DESC]`, `add todo [CATEGORYINDEX] [DESC]`,                                      |
+| delete      | `add [keyword]`                                                                                |
+| list        | `add [keyword]`                                                                                |
+| mark/unmark | `add [keyword]`                                                                                |
+| reorder     | `reorder category [FROMINDEX] [TOINDEX]`, `reorder todo [CATEGORYINDEX] [FROMINDEX] [TOINDEX]` |
+| priority    | `priority todo [CATEGORYINDEX] [TODOINDEX] [PRIORITYVALUE]`                                    |
+| sort        | `sort todo [CATEGORYINDEX]`                                                                    |
+| find        | `find [SUBSTRING]`                                                                             |
+| limit       | `limit [keyword]`                                                                              |
+| course      | `add [keyword]`                                                                                |
 
