@@ -17,7 +17,7 @@ This section describes the design and implementation of the key components of Un
 
 ### Architecture
 
-![MainArchitecture](docs/pictures/MainArchitecture.png)
+![MainArchitecture](pictures/MainArchitecture.png)
 
 The **Architecture Diagram** given above explains the high-level design of the App
 
@@ -35,7 +35,7 @@ The bulk of the app's work is done by the following components:
 
 **How the architecture components interact with each other:**
 
-![ReorderCommand](/docs/pictures/ReorderTodoSequenceDiagram.png)
+![ReorderCommand](pictures/ReorderTodoSequenceDiagram.png)
 
 1. User enters command in terminal
 2. UniTasker reads the input and passes it to CommandParser
@@ -94,7 +94,7 @@ The `UI` package,
 
 **Command component**
 
-![CommandClassDiagram](/docs/pictures/CommandClassDiagram.png)
+![CommandClassDiagram](pictures/CommandClassDiagram.png)
 
 The `Command` component handles the execution of user commands. Each supported command is represented by a separate command class implementing the common `Command` interface.
 
