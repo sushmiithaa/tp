@@ -204,7 +204,7 @@ and if the command is a recurring event, the `addRecurringWeeklyEvent` method in
 5. The event(s) are then stored in `EventList` are persisted in the `Storage` class, and the `Calendar` object is updated accordingly
 
 **Sequence Diagram for Add Event**
-![AddEvent Sequence Diagram](/docs/pictures/AddEvent.png)
+![AddEvent Sequence Diagram](pictures/AddEvent.png)
 *<div align="center"> Figure x - Add Event Command Sequence Diagram </div>*
 
 ####  Delete Event Command
@@ -263,7 +263,7 @@ get the particular `EventReference` object
 
 **Sequence Diagram for `list event` command**
 
-![ListEvent Sequence Diagram](/docs/pictures/ListEvent.png)
+![ListEvent Sequence Diagram](pictures/ListEvent.png)
 *<div align="center"> Figure x - List Event Command Sequence Diagram </div>*
 
 **Sequence Diagram for `delete event <categoryIndex> <uiIndex>` command**
@@ -273,7 +273,7 @@ Note:
 - `delete occurrence <categoryIndex> <uiIndex>` and `delete recurring <categoryIndex> <uiIndex>` works the same 
 except for deleting multiple events at once (all events in recurring group) for `delete recurring <categoryIndex> <uiIndex>`
 
-![DeleteEvent Sequence Diagram](/docs/pictures/DeleteEvent.png)
+![DeleteEvent Sequence Diagram](pictures/DeleteEvent.png)
 *<div align="center"> Figure x - Delete Event Command Sequence Diagram </div>*
 
 ## Product scope
