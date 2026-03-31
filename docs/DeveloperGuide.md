@@ -17,7 +17,7 @@ This section describes the design and implementation of the key components of Un
 
 ### Architecture
 
-![MainArchitecture](/docs/pictures/MainArchitecture.png)
+![MainArchitecture](pictures/MainArchitecture.png)
 
 The **Architecture Diagram** given above explains the high-level design of the App
 
@@ -35,7 +35,7 @@ The bulk of the app's work is done by the following components:
 
 **How the architecture components interact with each other:**
 
-![ReorderCommand](/docs/pictures/ReorderTodoSequenceDiagram.png)
+![ReorderCommand](pictures/ReorderTodoSequenceDiagram.png)
 
 1. User enters command in terminal
 2. UniTasker reads the input and passes it to CommandParser
@@ -60,11 +60,41 @@ The `AppContainer` component,
 
 **Storage component**
 
+![StorageClassDiagram](pictures/StorageClassDiagram.png)
+
+The `Storage` consists of the following:
+- `String todoFilePath` - path to the local file storing todo tasks
+- `String deadlineFilePath` - path to the  local file storing deadline tasks
+- `String eventFilePath` - path to the local file storing event tasks
+- `String SETTINGS_FILE` - path to the file storing application settings (daily task limit, end year)
+
+The `Storage` component,
+- Serializes  and persists the current state of CategoryList to disk across three separate files (todos, deadlines, events)
+- Deserializes and reconstructs the CategoryList on startup by reading from those files, skipping malformed lines gracefully 
+- Loads and saves application-level settings (e.g. daily task limit, calendar end year) independently of task data
+
 **UI component**
+
+![UIClassDiagram](pictures/UIClassDiagram.png)
+
+The UI package consists of the following classes:
+
+- `GeneralUi` – central utility class providing shared print helpers (bordered output, welcome screen, reminders) used by all other UI classes
+- `ErrorUi` – handles all error and warning messages shown to the user
+- `CategoryUi` – handles output for category-related actions (add, delete, list)
+- `DeadlineUi` – handles output for deadline-related actions (add, delete)
+- `EventUi` – handles output for event-related actions (add, delete, recurring events)
+- `TaskUi` – handles output for todo-related actions (mark, priority, sort, reorder, find)
+- `LimitUi` – handles output for limit and course result messages
+- `CommandHelp` – provides formatted help text for all command modes and topics
+
+The `UI` package,
+- Decouples all display logic from business logic by centralizing output into dedicated classes per task type 
+- Routes all formatted output through GeneralUi as a single shared rendering layer, ensuring consistent visual formatting across the application
 
 **Command component**
 
-![CommandClassDiagram](/docs/pictures/CommandClassDiagram.png)
+![CommandClassDiagram](pictures/CommandClassDiagram.png)
 
 The `Command` component handles the execution of user commands. Each supported command is represented by a separate command class implementing the common `Command` interface.
 
@@ -90,7 +120,7 @@ How the `Command` component works:
 
 The figure below illustrates the relationship between Deadline class and the following classes: Task, Timed, Calendar, DateUtils, DeadlineList, TaskList. 
 
-![Deadline Class Diagram](docs/pictures/deadlineClassDiagram.png)
+![Deadline Class Diagram](pictures/deadlineClassDiagram.png)
 *<div align="center"> Figure x - Deadline Class Diagram </div>*
 
 
@@ -121,9 +151,9 @@ The sequence diagram below illustrates how a date string entered by the user is 
 
 Example: `Add deadline 1 Homework /by 31-12-2025 1800` or `Add event 1 Homework /from 31-12-2025 1800 /to 01-01-2026`
 
-**Note: The command in the diagram has been generalised as a date since DateUtils validates dates only**
+**Note: The command in the diagram has been generalized as a date since DateUtils validates dates only**
 
-![DateUtils Sequence Diagram](docs/pictures/DateUtilsSequence.png)
+![DateUtils Sequence Diagram](pictures/DateUtilsSequence.png)
 *<div align="center"> Figure x - DateUtils: parse() Sequence Diagram </div>*
 
 **Parsing Flow Summary:**
@@ -149,7 +179,7 @@ TaskValidator ensures that there is a unique occurrence of a given task with no 
 
 Before any task (Todo, Deadline, Event) is added to the system, the AddCommand invokes three sequential validation passes via TaskValidator. These checks ensure that no Task have the same name, workload per day does not exceed set limit and there is no overlap in events. The diagram below shows the full interaction.
 
-![TaskValidator Sequence Diagram](docs/pictures/TaskValidatorSequence.png)
+![TaskValidator Sequence Diagram](pictures/TaskValidatorSequence.png)
 *<div align="center"> Figure x - Task Validator Sequence Diagram </div>*
 
 **Parsing Flow Summary**
@@ -161,6 +191,91 @@ Before any task (Todo, Deadline, Event) is added to the system, the AddCommand i
 - Otherwise, check for any overlap in timing with existing events
 - If yes throw an OverlapEventException, otherwise all validators have been passed and task is added successfully
 
+### Event commands
+Event commands include adding non-recurring events, 
+deleting events based on the index seen in the user interface of the list and 
+adding recurring events for a user-specified interval (number of months or stop date).
+####  Add Event Command
+1. User types `add event <categoryIndex> <description> from <startDateTime> to <endDateTime>` or `add recurring <categoryIndex> weekly event  <description> /from <day> <time> /to <day> <time> /(date or month) <dateOrMonth>` which is parsed by the CommandParser class to create an AddEventCommand object
+2. In `AddEventCommand`, the parameters are validated and used to create an Event object
+3. For non-recurring events, the `Event` is passed to `CategoryList` then to `Category`, which delegates to `EventList` to store the event under the correct category
+and if the command is a recurring event, the `addRecurringWeeklyEvent` method in the `EventList` class is called
+4. For recurring events, `addRecurringWeeklyEvent` in `EventList` is called, which generates multiple `Event` objects at weekly intervals based on the start time and duration in months, and groups them as a recurring event
+5. The event(s) are then stored in `EventList` are persisted in the `Storage` class, and the `Calendar` object is updated accordingly
+
+**Sequence Diagram for Add Event**
+![AddEvent Sequence Diagram](pictures/AddEvent.png)
+*<div align="center"> Figure x - Add Event Command Sequence Diagram </div>*
+
+####  Delete Event Command
+**Problem**
+- Index shown in UI is not the same as index of event to delete since the main list shows 
+the collapsed view of the recurring events (gap between UI and data)
+- Each category has its own set of indexes
+- Deleting a specific recurring event from a group requires viewing all recurring event from a group
+
+**Design**
+- `EventReference (int categoryIndex, int eventIndex)` class:  stores the category index and `eventList` ArrayList index
+- `Map<Integer,List<EventReference>>`: map where key is the categoryIndex and value is the `EventReference` objects 
+based on the current list view
+    
+  
+Example:
+
+    `list event /all`
+
+  | categoryIndex | uiIndex | EventReference (categoryIndex, eventIndex) |   Description   |
+  |:-------------:|:-------:|:------------------------------------------:|:---------------:|
+  |       0       |    1    |                   (0,0)                    |  consultation   |
+  |       0       |    2    |                   (0,1)                    | CS2113 tutorial |
+  |       0       |    3    |                   (0,2)                    |     meeting     |
+  |       0       |    4    |                   (0,3)                    | CS2113 lecture  |
+  |       0       |    5    |                   (0,4)                    | CS2113 tutorial |
+  |       0       |    6    |                   (0,5)                    | CS2113 lecture  |
+  |       1       |    1    |                   (1,0)                    |   yoga lesson   |
+  |       1       |    2    |                   (1,1)                    |   yoga lesson   |
+
+    `list event`
+  | categoryIndex | uiIndex | EventReference (categoryIndex, eventIndex) |   Description   |
+  |:-------------:|:-------:|:------------------------------------------:|:---------------:|
+  |       0       |    1    |                   (0,0)                    |  consultation   |
+  |       0       |    2    |                   (0,1)                    | CS2113 tutorial |
+  |       0       |    3    |                   (0,2)                    |     meeting     |
+  |       0       |    4    |                   (0,3)                    | CS2113 lecture  |
+  |       1       |    1    |                   (1,0)                    |   yoga lesson   |
+
+    `list recurring`
+ | categoryIndex | uiIndex | EventReference (categoryIndex, eventIndex) |   Description   |
+ |:-------------:|:-------:|:------------------------------------------:|:---------------:|
+ |       0       |    1    |                   (0,1)                    | CS2113 tutorial |
+ |       0       |    2    |                   (0,3)                    | CS2113 lecture  |
+ |       1       |    1    |                   (1,0)                    |   yoga lesson   |
+
+**Workflow for Delete Event command**
+
+1. User types `delete event <categoryIndex> <uiIndex>` which is parsed by `CommandParser` class to 
+create a `DeleteCommand` object
+2. In `DeleteCommand` under 'event' uiIndex is parsed and used as an index in the list of `EventReference` objects to 
+get the particular `EventReference` object
+3. Event is then deleted using `EventReference.categoryIndex` and `EventReference.eventIndex` if it is non-recurring. If it is recurring it will prompt user to use `list occurrence`
+4. Changes are updated in `Storage` class and `Calendar` object
+
+
+**Sequence Diagram for `list event` command**
+
+![ListEvent Sequence Diagram](pictures/ListEvent.png)
+*<div align="center"> Figure x - List Event Command Sequence Diagram </div>*
+
+**Sequence Diagram for `delete event <categoryIndex> <uiIndex>` command**
+
+Note: 
+- `list event` must be called before `delete event <categoryIndex> <uiIndex>` to populate the map correctly
+- `delete occurrence <categoryIndex> <uiIndex>` and `delete recurring <categoryIndex> <uiIndex>` works the same 
+except for deleting multiple events at once (all events in recurring group) for `delete recurring <categoryIndex> <uiIndex>`
+
+![DeleteEvent Sequence Diagram](pictures/DeleteEvent.png)
+*<div align="center"> Figure x - Delete Event Command Sequence Diagram </div>*
+
 ## Product scope
 
 ### Target user profile
@@ -168,7 +283,7 @@ Before any task (Todo, Deadline, Event) is added to the system, the AddCommand i
 UniTasker is designed for university students who need to manage multiple courses, assignments, deadlines, and personal tasks simultaneously. These users often:
 - juggle academic responsibilities across different modules, each with varying deadlines, 
 priorities, and schedules. 
-- They require a simple and efficient system to organise their tasks,
+- They require a simple and efficient system to organize their tasks,
 keep track of coursework, and stay on top of deadlines.
 - prefer a fast, keyboard-driven interface over GUI-heavy applications
 
@@ -176,11 +291,11 @@ keep track of coursework, and stay on top of deadlines.
 
 University students often struggle to keep track of tasks and course assessments across different 
 platforms such as learning portals, calendars and notes. This fragmented approach leads
-to missed deadlines, poor prioritisation, and unnecessary stress. 
+to missed deadlines, poor prioritization, and unnecessary stress. 
 
 UniTasker provides a centralized 
 task management solution that consolidates todos, deadlines, events and course information into a 
-single platform. Through a simple command-line interface, it allows students to efficiently organise, 
+single platform. Through a simple command-line interface, it allows students to efficiently organize, 
 update, and review their tasks and assessments. This helps students to stay on top of their workload
 and focus on completing their academic responsibilities.
 
@@ -224,7 +339,7 @@ can accomplish most of the tasks faster using commands than using the mouse.
 
 ## Glossary
 
-* *Mainstream OS* - Windows, Linux, Unix, MacOS
+* *Mainstream OS* - Windows, Linux, Unix, macOS
 
 ## Instructions for Manual Testing
 
