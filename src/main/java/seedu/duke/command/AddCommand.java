@@ -22,7 +22,6 @@ import seedu.duke.ui.CategoryUi;
 import seedu.duke.ui.DeadlineUi;
 import seedu.duke.ui.ErrorUi;
 import seedu.duke.ui.EventUi;
-import seedu.duke.ui.GeneralUi;
 import seedu.duke.ui.TaskUi;
 import seedu.duke.util.DateUtils;
 import seedu.duke.util.TaskValidator;
@@ -210,10 +209,8 @@ public class AddCommand implements Command {
                         container.categories().getCategory(deadlineCatIdx).getDeadlineList().getSize()
                 );
             }
-        } catch (IllegalDateException e) {
+        } catch (IllegalDateException | DuplicateTaskException | DuplicateCategoryException | HighWorkloadException e) {
             ErrorUi.printError(e.getMessage());
-        } catch (DuplicateTaskException | DuplicateCategoryException | HighWorkloadException e) {
-            GeneralUi.printWarning(e.getMessage());
         } catch (Exception e) {
             ErrorUi.printError("System Error", e.getMessage());
         }
@@ -268,8 +265,6 @@ public class AddCommand implements Command {
                     container.categories().getCategory(eventCategoryIndex).getName(),
                     container.categories().getCategory(eventCategoryIndex).getEventList().getSize()
             );
-        } catch (HighWorkloadException | DuplicateTaskException e) {
-            GeneralUi.printWarning(e.getMessage());
         } catch (DateTimeParseException | ArrayIndexOutOfBoundsException e) {
             ErrorUi.printAddEventFormatError();
         } catch (Exception e) {
@@ -372,7 +367,7 @@ public class AddCommand implements Command {
         } catch (UniTaskerException e) {
             ErrorUi.printError(e.getMessage());
         } catch (HighWorkloadException | DuplicateTaskException e) {
-            GeneralUi.printWarning(e.getMessage());
+            ErrorUi.printError(e.getMessage());
         } catch (Exception e) {
             ErrorUi.printAddRecurringEventFormatError();
         }

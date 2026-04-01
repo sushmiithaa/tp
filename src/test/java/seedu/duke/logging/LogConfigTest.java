@@ -60,8 +60,8 @@ public class LogConfigTest {
         Handler[] handlers = Logger.getLogger("").getHandlers();
         for (Handler h : handlers) {
             if (h instanceof ConsoleHandler) {
-                assertEquals(Level.WARNING, h.getLevel(),
-                        "ConsoleHandler should only show WARNING and above");
+                assertEquals(Level.SEVERE, h.getLevel(),
+                        "ConsoleHandler should only show SEVERE errors");
                 return;
             }
         }

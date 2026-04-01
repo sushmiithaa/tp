@@ -21,7 +21,7 @@ import seedu.duke.task.Todo;
 import seedu.duke.exception.UniTaskerException;
 
 public class CategoryList {
-    public static final String DOTTED_LINE = "-------------------------------------------------------------------";
+    public static final String DOTTED_LINE = "______________________________________________________________________";
     public static final String EQUALSIGN_LINE = "===============================================================" +
             "=======";
     public static final int INDEX_LOWER_LIMIT = 0;

@@ -65,11 +65,10 @@ public class GeneralUi {
 
     }
 
-    public static void printWarning(String message) {
-        System.out.println("[WARNING] " + message);
-    }
 
     public static void printMessage(String message) {
+        printDottedLine();
         System.out.println(message);
+        printDottedLine();
     }
 }

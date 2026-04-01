@@ -58,13 +58,6 @@ public class GeneralUiTest {
     }
 
     @Test
-    void printWarning_containsWarningTag() {
-        GeneralUi.printWarning("disk full");
-        assertTrue(out.toString().contains("[WARNING]"));
-        assertTrue(out.toString().contains("disk full"));
-    }
-
-    @Test
     void printMessage_outputsExactMessage() {
         GeneralUi.printMessage("Simple message");
         assertTrue(out.toString().contains("Simple message"));

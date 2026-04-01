@@ -12,7 +12,7 @@ import seedu.duke.task.Todo;
 import seedu.duke.exception.UniTaskerException;
 
 public class Category {
-    public static final String DOTTED_LINE = "-------------------------------------------------------------------";
+    public static final String DOTTED_LINE = "______________________________________________________________________";
 
     private String name;
     private TodoList todoList;
