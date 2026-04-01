@@ -5,6 +5,41 @@
 UniTasker is a desktop app for managing tasks and courses, optimized for use via a
 Command Line Interface (CLI).
 
+- [Quick Start](#quick-start)
+- [Features](#features-)
+
+  - [Adding tasks: `add`](#add-command-add)
+    - [Adding a category: `category`](#add-category-add-category)
+    - [Adding a todo: `todo`](#add-todo-add-todo)
+    - [Adding a deadline: `deadline`](#add-deadline-add-deadline)
+    - [Adding a non-recurring event: `event`](#add-event-add-event)
+    - [Adding a recurring event: `recurring`](#add-recurring-event-add-recurring)
+  - [Deleting tasks: `delete`](#delete-command-delete)
+    - [Deleting a category: `category`](#delete-category-delete-category)
+    - [Deleting a todo/deadline: `todo` `deadline`](#delete-task-todos-and-deadlines-delete-tasktype)
+    - [Deleting an event (recurring, non-recurring, occurrence): `event` `recurring` `occurrence`](#delete-events-delete-eventtype)
+  - [Marking a task: `mark`](#mark-command-mark)
+    - [Marking a todo/deadline: `todo` `deadline`](#mark-task-todos-and-deadlines-mark-tasktype)
+    - [Marking an event (recurring, non-recurring, occurrence): `event` `recurring` `occurrence`](#mark-events-mark-eventtype)
+  - [Unmarking a task: `unmark`](#unmark-command-unmark)
+    - [Unmarking a todo/deadline: `todo` `deadline`](#unmark-task-todos-and-deadlines-unmark-tasktype)
+    - [Unmarking an event (recurring, non-recurring, occurrence): `event` `recurring` `occurrence`](#unmark-events-unmark-eventtype)
+  - [Listing tasks: `list`](#list-command-list)
+    - [Listing events (main list): `event`](#list-event-list-event)
+    - [Listing recurring events (groups of recurring events): `recurring`](#list-recurring-list-recurring)
+    - [Listing occurrence (recurring events within a group): `occurrence`](#list-occurrence-list-occurrence)
+  - [Reorder: `reorder`](#reorder-command-reorder)
+    - [Reorder category: `category`](#reorder-category-reorder-category)
+    - [Reorder todo: `todo`](#reorder-todo-reorder-todo)
+  - [Set priority to a todo: `priority`](#priority-command-priority)
+  - [Sort todos within a category: `sort todo`](#sort-command-sort-todo)
+  - [Find tasks: `find`](#find-command-find)
+  - [Set limit to number of tasks or year: `limit`](#limit-command-limit-)
+  - [See reminders for tasks: `reminder`](#reminder-command-reminder)
+  - [Exiting the program: `exit`](#exit-program-exit)
+- [FAQ](#faq)
+- [Command Summary](#command-summary)
+
 ## Quick Start
 
 1. Ensure that you have Java 17 or above installed.
@@ -16,26 +51,7 @@ use the `java -jar UniTasker.jar` command to run the application
 6. It is recommended to use the `add category` command first as tasks can only be added inside a category.
 
 ## Features 
-
 ### Add Command: `add`
-
-Adds a new item to the list.`add` can be used to add the following: `category`, `todo`, `deadline`, `event`, `recurring`
-
-Format: 
-
-add `category` name or,
-
-add [TASKTYPE] [CATEGORYINDEX] [DESCRIPTION] [DATE]
-
-- TASKTYPE : `todo`, `deadline`, `event`, `recurring`
-- CATEGORYINDEX: Integer value up to number of categories added
-- DESCRIPTION: What the task is about
-- DATE: Date & Time, Date only
-
-Examples:
-`add deadline 1 Homework /by 25-05-2026`
-
-### Add Command: `add` Version 2
 
 Adds a new item to the list. The `add` command supports multiple task types: `category`, `todo`, `deadline`, `event`, and `recurring`.
 
@@ -51,7 +67,7 @@ Format: `add category [name]`
 
 **Example:**
 
-add category School
+`add category School`
 
 
 ---
@@ -69,8 +85,8 @@ Format: `add todo [categoryIndex] [description] /p [priorityValue]`
 
 **Examples:**
 
-add todo 1 finish tutorial  
-add todo 1 reply email /p 5
+`add todo 1 finish tutorial` 
+`add todo 1 reply email /p 5`
 
 ---
 
@@ -87,7 +103,7 @@ Format: `add deadline [categoryIndex] [description] /by [date time]`
 
 **Example:**
 
-add deadline 1 Homework /by 25-05-2026 1800
+`add deadline 1 Homework /by 25-05-2026 1800`
 
 ---
 
@@ -108,7 +124,7 @@ Format: `add event [categoryIndex] [description] /from [start] /to [end]`
 
 **Example:**
 
-add event 1 meeting /from 25-05-2026 1400 /to 25-05-2026 1600
+`add event 1 meeting /from 25-05-2026 1400 /to 25-05-2026 1600`
 
 ---
 
@@ -125,7 +141,7 @@ Format: `add recurring [categoryIndex] weekly event [description] /from [day tim
 
 **Examples:**
 
-add recurring 1 weekly event CS2113 lecture /from Friday 1600 /to Friday 1800
+`add recurring 1 weekly event CS2113 lecture /from Friday 1600 /to Friday 1800`
 
 ---
 
@@ -161,7 +177,7 @@ Format: `delete [EVENTTYPE] [CATEGORYINDEX] [UIINDEX]`
 
 - EVENTTYPE : `event`, `recurring`,`occurrence`
 - CATEGORYINDEX: Integer value up to number of categories added
-- TASKINDEX: follow the UI index for its respective list type:
+- UIINDEX: follow the UI index for its respective list type:
   - `delete occurrence [CATEGORYINDEX] [UIINDEX]` → `list occurrence [CATEGORYINDEX] [UIINDEX]`
   - `delete recurring [CATEGORYINDEX] [UIINDEX]` → `list recurring`
   - `delete event [CATEGORYINDEX] [UIINDEX]` → `list event` or `list event /all` or `list event /normal`
@@ -174,41 +190,70 @@ Examples:
 
 *Note*:
 - *Use `delete event categoryIndex all` to delete all events in specific category*
-- *For deleting events always use its respective list views first before using its delete operations to match the index to delete*
+- *For deleting events always use its respective list views first before using its delete operations to match the index to delete (shown above under UIINDEX description)*
 
 ---
 ### Mark Command: `mark`
-Mark an existing task in the category.
+#### Mark Task (Todos and Deadlines) `mark [TASKTYPE]`
+Mark an existing task (todos and deadlines) in the category.
 
 Format: `mark [TASKTYPE] [CATEGORYINDEX] [TASKINDEX]`
 
-- TASKTYPE : `todo`, `deadline`, `event`
+- TASKTYPE : `todo`, `deadline`, 
 - CATEGORYINDEX: Integer value up to number of categories added
 - TASKINDEX: Integer value up to number of tasks in the category
 
 Example: `mark todo 1 1`
 
-*Note*: *For marking events use index from `list event /all`*
+#### Mark Events `mark [EVENTTYPE]`
+Mark an existing event in the category.
+
+Format: `mark [EVENTTYPE] [CATEGORYINDEX] [UIINDEX]`
+
+- EVENTTYPE : `event`, `occurrence`
+- CATEGORYINDEX: Integer value up to number of categories added
+- UIINDEX: follow the UI index for its respective list type:
+  - `mark occurrence [CATEGORYINDEX] [UIINDEX]` → `list occurrence [CATEGORYINDEX] [UIINDEX]`
+  - `mark event [CATEGORYINDEX] [UIINDEX]` → `list event` or `list event /all` or `list event /normal`
+
+Example: `mark event 1 1` `mark occurrence 1 1`
+
+*Note*: *For marking events always use its respective list views first before using its mark operations to match the index to mark (shown above under UIINDEX description)*
+
 
 ### Unmark Command: `unmark`
-Unmark an existing task in the category. 
+#### Unmark Task (Todos and Deadlines) `unmark [TASKTYPE]`
+Unmark an existing task (todos and deadlines) in the category. 
 
 Format: `unmark [TASKTYPE] [CATEGORYINDEX] [TASKINDEX]`
 
-- TASKTYPE : `todo`, `deadline`, `event`,
+- TASKTYPE : `todo`, `deadline`, 
 - CATEGORYINDEX: Integer value up to number of categories added
 - TASKINDEX: Integer value up to number of tasks in the category
 
 Example: `unmark deadline 1 1`
 
-*Note*: *For unmarking events use index from `list event /all`*
+#### Unmark Events `unmark [EVENTTYPE]`
+Unmark an existing event in the category.
+
+Format: `unmark [EVENTTYPE] [CATEGORYINDEX] [UIINDEX]`
+
+- EVENTTYPE : `event`, `occurrence`
+- CATEGORYINDEX: Integer value up to number of categories added
+- UIINDEX: follow the UI index for its respective list type:
+  - `unmark occurrence [CATEGORYINDEX] [UIINDEX]` → `list occurrence [CATEGORYINDEX] [UIINDEX]`
+  - `unmark event [CATEGORYINDEX] [UIINDEX]` → `list event` or `list event /all` or `list event /normal`
+
+Example: `unmark event 1 1` `unmark occurrence 1 1`
+
+*Note*: *For unmarking events always use its respective list views first before using its unmark operations to match the index to unmark (shown above under UIINDEX description)*
 
 ---
 
 ### List Command: `list`
 Displays a list of tasks. 
 
-- `list` can be used to crate a list on the following: `category`, `todo`, `deadline`, `event`, `recurring`, `range`
+- `list` can be used to create a list on the following: `category`, `todo`, `deadline`, `event`, `recurring`, `range`
 
 List out all tasks based on key word
 
@@ -243,6 +288,10 @@ Format: list [KEYWORD] [TYPE]
 - KEYWORD: `event`
 - TYPE: `/normal`, `/all`
 
+`list event /normal` shows non-recurring events
+
+`list event` shows both non-recurring events and recurring events (collapsed view)
+
 Examples:
 
 `list event /normal` `list event /all` `list event`
@@ -253,6 +302,8 @@ Examples:
 - *Unknown type will be ignored*
 
 #### List Recurring: `list recurring`
+List recurring shows groups of recurring events.
+
 Format : list [KEYWORD]
 
 - KEYWORD: `recurring`
@@ -264,6 +315,8 @@ Examples:
 *Note*: *Anything after 'recurring' will be ignored*
 
 #### List Occurrence: `list occurrence`
+List occurrence shows all events within a recurring group.
+
 Format: list [KEYWORD] [CATEGORYINDEX] [UIINDEX]
 
 - KEYWORD: `occurrence`
@@ -366,15 +419,19 @@ Shows the pending tasks (deadlines and events) for the day
 
 Format:
 
-limit [KEYWORD]
-
-- KEYWORD: `reminder`
-
-Example:
-
 `reminder`
 
 *Note*: *Anything after 'reminder' will be ignored*
+
+---
+### Exit program: `exit`
+Exits the program
+
+Format:
+
+`exit`
+
+*Note*: *Anything after 'exit' will be ignored*
 
 ---
 
@@ -401,4 +458,5 @@ is located in the other computer.
 | limit       | `limit [keyword]`                                                                                                            |
 | reminder    | `reminder`                                                                                                                   |
 | course      | `add [keyword]`                                                                                                              |
+| exit        | `exit`                                                                                                                       |
 
