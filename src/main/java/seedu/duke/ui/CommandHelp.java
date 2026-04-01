@@ -5,7 +5,7 @@ package seedu.duke.ui;
  * Provides contextual help for each mode and command.
  */
 public class CommandHelp {
-    private static final String DOTTED_LINE = "____________________________________________________________";
+    private static final String DOTTED_LINE = "______________________________________________________________________";
 
     /**
      * Get general help showing all 4 modes and basic commands.
