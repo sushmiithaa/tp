@@ -33,24 +33,24 @@ public class Event extends Task implements Timed {
 
     }
 
-    public LocalDateTime getFrom(){
+    public LocalDateTime getFrom() {
         return from;
     }
 
-    public LocalDateTime getTo(){
+    public LocalDateTime getTo() {
         return to;
     }
 
-    public int getRecurringGroupId(){
+    public int getRecurringGroupId() {
         return recurringGroupId;
     }
 
-    public void setRecurringGroupId(int recurringGroupIndex){
+    public void setRecurringGroupId(int recurringGroupIndex) {
         assert (recurringGroupIndex > 0): "Recurring event must have a group ID > 0";
         this.recurringGroupId = recurringGroupIndex;
     }
 
-    public boolean getIsRecurring(){
+    public boolean getIsRecurring() {
         return isRecurring;
     }
 
@@ -81,7 +81,7 @@ public class Event extends Task implements Timed {
         DateTimeFormatter displayFormatterTime = RECURRING_GROUP_FORMATTER;
         String fromFormatted = from.format(displayFormatterTime);
         String toFormatted = to.format(displayFormatterTime);
-        if (isList){
+        if (isList) {
             return "[RE]" + description
                     + " (from: " + fromFormatted + " to: " + toFormatted + ")";
         }
