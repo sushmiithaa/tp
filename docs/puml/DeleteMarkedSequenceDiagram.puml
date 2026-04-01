@@ -1,0 +1,61 @@
+@startuml
+
+participant ":DeleteCommand" as DeleteCommand
+participant ":AppContainer" as AppContainer
+participant ":CategoryList" as CategoryList
+participant ":Category" as Category
+participant ":UI" as UI
+participant ":Storage" as Storage
+participant ":Calendar" as Calendar
+
+ -> DeleteCommand : delete marked
+activate DeleteCommand
+
+DeleteCommand -> AppContainer : categories()
+activate AppContainer
+AppContainer --> DeleteCommand : CategoryList
+deactivate AppContainer
+
+DeleteCommand -> CategoryList : deleteMarkedTasks()
+activate CategoryList
+
+loop for each Category
+    CategoryList -> Category : deleteMarkedTasks()
+    activate Category
+
+    Category -> Category : todoList.deleteMarked()
+    Category -> Category : deadlineList.deleteMarked()
+    Category -> Category : eventList.deleteMarked()
+
+    Category --> CategoryList
+    deactivate Category
+end
+
+CategoryList --> DeleteCommand
+deactivate CategoryList
+
+DeleteCommand -> UI : printAllMarkedDeleted()
+activate UI
+UI --> DeleteCommand
+deactivate UI
+
+DeleteCommand -> DeleteCommand : saveData(container)
+DeleteCommand -> Storage : save(categories)
+activate Storage
+Storage --> DeleteCommand
+deactivate Storage
+
+DeleteCommand -> AppContainer : calendar()
+activate AppContainer
+AppContainer --> DeleteCommand : Calendar
+deactivate AppContainer
+
+DeleteCommand -> Calendar : refreshCalendar(categories, calendar)
+activate Calendar
+Calendar --> DeleteCommand
+deactivate Calendar
+
+<-- DeleteCommand : success
+deactivate DeleteCommand
+
+@enduml

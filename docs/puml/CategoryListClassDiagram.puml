@@ -1,8 +1,23 @@
 @startuml
+skinparam classAttributeIconSize 0
+skinparam CircledCharacterFontSize 0
+skinparam CircledCharacterRadius 0
+skinparam class {
+    BackgroundColor White
+    BorderColor Black
+    ArrowColor Black
+}
+
+
 
 class CategoryList {
     - categories : ArrayList<Category>
 }
+
+note top of CategoryList
+Additional attributes such as dependencies and other
+task-specific properties are omitted for simplicity.
+end note
 
 class Category {
     - name : String
@@ -30,14 +45,15 @@ DeadlineList *-- "*" Deadline
 EventList *-- "*" Event
 
 ' Inheritance
-abstract class Task
+abstract class "{abstract}\nTask" as Task
 Task <|-- Todo
 Task <|-- Deadline
 Task <|-- Event
 
-abstract class TaskList
+abstract class "{abstract}\nTaskList" as TaskList
 TaskList <|-- TodoList
 TaskList <|-- DeadlineList
 TaskList <|-- EventList
+
 
 @enduml

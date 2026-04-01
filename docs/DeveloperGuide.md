@@ -114,7 +114,71 @@ How the `Command` component works:
 
 ## Implementation
 
-**Deadline Class Diagram**
+### CategoryList Class Diagram
+
+The figure below illustrates the high-level structure of `CategoryList` within the `AppContainer`.
+
+![CategoryList Class Diagram](pictures/CategoryListClassDiagram.png)
+
+`CategoryList` consists of a collection of `Category` objects. Each `Category` contains three task lists:
+- `TodoList`
+- `DeadlineList`
+- `EventList`
+
+These task lists store their corresponding task types:
+- `TodoList` stores `Todo` objects
+- `DeadlineList` stores `Deadline` objects
+- `EventList` stores `Event` objects
+
+All task types inherit from the abstract `Task` class, while the three task list types inherit from the abstract `TaskList` class.
+
+The `CategoryList` class:
+- acts as the central data structure for storing and accessing all categories
+- allows unified control over todos, deadlines, and events through their parent categories
+- provides methods for category-level operations such as adding, deleting, and reordering categories
+- provides methods for task-level operations such as adding, deleting, marking, unmarking, reordering, and setting priorities
+- serves as the main model component accessed by commands through the `AppContainer`
+
+This design allows related tasks to be grouped under a category, making it easier for users 
+to organize work by module or context. It also improves maintainability by centralizing 
+task management logic within `CategoryList` and `Category`, instead of scattering it 
+across multiple unrelated classes.
+
+### Delete Marked Command
+
+The `delete marked` command allows users to remove all completed tasks in a single command.
+
+![Delete Marked Sequence Diagram](pictures/DeleteMarkedSequenceDiagram.png)
+
+The sequence diagram above shows how the `delete marked` command is handled by `DeleteCommand`.
+
+#### How it works
+
+1. The user enters the `delete marked` command.
+2. `DeleteCommand` retrieves the `CategoryList` from the `AppContainer`.
+3. `DeleteCommand` calls `deleteMarkedTasks()` on `CategoryList`.
+4. `CategoryList` iterates through all `Category` objects it stores.
+5. For each `Category`, `deleteMarkedTasks()` is called.
+6. Each `Category` then removes marked tasks from all three task lists:
+    - `TodoList`
+    - `DeadlineList`
+    - `EventList`
+7. After deletion is complete, a confirmation message is printed through the `UI`.
+8. The updated data is saved through `Storage`.
+9. The calendar is refreshed to keep it consistent with the updated task data.
+
+#### Design Rationale
+
+This feature demonstrates that `CategoryList` acts as the central access point for all categories and their associated task lists.
+
+By delegating the deletion process through `CategoryList` and `Category`:
+- the command layer does not need to access `TodoList`, `DeadlineList`, and `EventList` directly
+- task management logic remains encapsulated within the model
+- bulk operations can be applied consistently across all task types
+
+This design improves modularity and keeps command logic simple, while allowing `CategoryList` to coordinate operations affecting all three task lists.
+
+### Deadline Class Diagram
 
 The figure below illustrates the relationship between Deadline class and the following classes: Task, Timed, Calendar, DateUtils, DeadlineList, TaskList. 
 
