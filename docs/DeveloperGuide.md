@@ -359,70 +359,47 @@ Before any task (Todo, Deadline, Event) is added to the system, the AddCommand i
 - If yes throw an OverlapEventException, otherwise all validators have been passed and task is added successfully
 
 
-
 ### Feature: Course Tracker
 
 The Course Tracker feature allows students to manage their courses and track their assessment scores and weightages.
 
 **Course Class Diagram**
 
-The figure below illustrates the relationship between CourseManager, CourseList, Course, and Assessment classes.
-
 ![Course Class Diagram](pictures/CourseClassDiagram.png)
+
+The following sequence diagram shows how a `course add` command is executed:
+
+![CourseAddSequenceDiagram](pictures/CourseAddSequenceDiagram.png)
 
 **Key Design Considerations**
 
-- `CourseManager` acts as the main controller for all course-related operations
-- `CourseList` maintains a list of all courses and provides methods to add, remove, and retrieve courses
-- `Course` stores course-specific information including courseCode and a list of assessments
-- `Assessment` represents individual assessment components with weightage and score tracking
-- The structure follows separation of concerns: each class has distinct responsibilities
-- CourseStorage handles persistence of course data to disk
+- `CourseParser` is kept separate from `CommandParser` to isolate course-specific parsing logic
+- `CourseManager` acts as the single point of access for all course operations
+- `CourseStorage` handles persistence independently from the main `Storage` class
+- Weighted score is calculated as: `weightedScore = (scoreObtained / maxScore) * weightage`
 
-**Course Management Operations**
+---
 
-#### Add Course
-- User enters: `course add <courseCode>`
-- `CourseParser` creates a CourseCommand with the add operation
-- `CourseManager.addCourse()` creates a new Course object and adds it to CourseList
-- Result is stored via `CourseStorage` and displayed to the user via `CourseUi`
+### Feature: Undo (Course Commands)
 
-#### Delete Course
-- User enters: `course delete <courseCode>`
-- `CourseManager.deleteCourse()` removes the course from CourseList
-- Associated assessments are also removed
-- Changes are persisted to storage
+The undo feature allows users to reverse the most recent course command that modified data.
 
-#### List Courses
-- User enters: `course list`
-- `CourseManager.listCourses()` retrieves all courses from CourseList
-- `CourseUi` displays each course with its assessments and current weighted score
+The following sequence diagram shows how an `undo` command is executed:
 
-#### View Course Details
-- User enters: `course view <courseCode>`
-- `CourseManager.viewCourse()` retrieves the specific course
-- Displays course code and all assessments with their weightages and scores
+![UndoSequenceDiagram](pictures/UndoSequenceDiagram.png)
 
-#### Assessment Management
-- **Add Assessment**: `course assessment add <courseCode> <name> <weightage> <maxScore>`
-  - Creates an Assessment object and adds it to the target Course
-  - Validates that total weightage does not exceed 100%
-  
-- **Record Score**: `course assessment record <courseCode> <name> <score>`
-  - Updates the scoreObtained field for the specified assessment
-  - Calculates weighted score based on weightage and max score
-  
-- **Delete Assessment**: `course assessment delete <courseCode> <name>`
-  - Removes the assessment from the Course
-  - Recalculates total weightage and weighted score
+The following class diagram shows the structure of the undo feature:
 
-**Assessment Score Calculation**
+![UndoClassDiagram](pictures/UndoClassDiagram.png)
 
-The weighted score for each assessment is calculated as:
-- `weightedScore = (scoreObtained / maxScore) * weightage`
+**Key Design Considerations**
 
-The total weighted score for a course is:
-- `totalWeightedScore = sum of all assessment weightedScores`
+- `UniTasker` maintains a `Stack<Command>` to track undoable commands
+- `Command` interface exposes default `undo()` and `isUndoable()` methods so existing commands are unaffected
+- Only course commands that modify data are pushed to the stack (`add`, `delete`, `add-assessment`)
+- Undo history is cleared on app exit
+
+---
 
 ## Product scope
 
@@ -476,7 +453,7 @@ and focus on completing their academic responsibilities.
 | v2.0    | University Student | customise the duration to add a certain recurring event                    | adjust it based on the event                                                   |
 | v2.0    | University Student | have reminders for events and deadlines coming soon                        | plan my time accordingly to complete/attend them                               |
 | v2.0    | University Student | have different views of events                                             | so that it is clearer to disntinguish the important ones without having others |
-
+| v2.0    | University Student | undo my last course action                                                 | reverse accidental changes to the course tracker                               |
 
 ## Non-Functional Requirements
 

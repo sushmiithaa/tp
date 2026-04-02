@@ -1,4 +1,4 @@
-package seedu.duke.coursetrackertests;
+package seedu.duke.coursetests;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
