@@ -25,6 +25,11 @@ Command Line Interface (CLI).
     - [Unmarking a todo/deadline: `todo` `deadline`](#unmark-task-todos-and-deadlines-unmark-tasktype)
     - [Unmarking an event (recurring, non-recurring, occurrence): `event` `recurring` `occurrence`](#unmark-events-unmark-eventtype)
   - [Listing tasks: `list`](#list-command-list)
+    - [Listing categories: `list category`](#list-category-list-category)
+    - [Listing todos: `list todo`](#list-todo-list-todo)
+    - [Listing deadlines: `list deadline`](#list-deadline-list-deadline)
+    - [Listing limit: `list limit`](#list-limit-list-limit)
+    - [Listing range: `list range`](#list-range-list-range)
     - [Listing events (main list): `event`](#list-event-list-event)
     - [Listing recurring events (groups of recurring events): `recurring`](#list-recurring-list-recurring)
     - [Listing occurrence (recurring events within a group): `occurrence`](#list-occurrence-list-occurrence)
@@ -277,36 +282,64 @@ Example:
 ---
 
 ### List Command: `list`
-Displays a list of tasks. 
+Displays a list of tasks. The `list` command can be used with the following keywords: 
+`category`, `todo`, `deadline`, `range`, `limit`, `event`, `recurring`, `occurence`
 
-- `list` can be used to create a list on the following: `category`, `todo`, `deadline`, `event`, `recurring`, `range`
+---
 
-List out all tasks based on key word
+#### List Category: `list category`
+List all categories or one selected category.
 
-Format :
+Format: `list category [CATEGORYINDEX]`
 
-list [KEYWORD] [CATEGORYINDEX] [START] [END] [TASKTYPE]
+- categoryIndex: Optional argument. Integer value up to number of categories added.
 
-- KEYWORD: `category`,`todo`,`deadline`,`range`,`limit`
-- CATEGORYINDEX: Integer value up to number of categories added
+Examples: `list category`, `list category 1`
+
+---
+
+#### List Todo: `list todo`
+Lists all todos in every category
+
+Format: `list todo`
+
+Example: `list todo`
+
+---
+
+#### List Deadline: `list deadline`
+Lists all deadlines in every category
+
+Format: `list deadline`
+
+Example: `list deadline`
+
+---
+
+#### List Limit: `list limit`
+Shows the current year range and daily task limit.
+
+Format: `list limit`
+
+Example: `list limit`
+
+---
+
+#### List Range: `list range`
+Shows all deadlines and/or events within a date range
+
+Format: `list range [START] [END] [FLAG]`
+
 - START: Start date
 - END: End date
-- TASKTYPE: `/deadline`, `/event`
+- FLAG: Optional flag that is either `/deadline` or `/event`
 
-Examples:
+Examples: 
+`list range 25-06-2026 27-06-2026`
+`list range 25-06-2026 27-06-2026 /deadline`
+`list range 25-06-2026 27-06-2026 /event`
 
-`list deadline` `list deadline 1` 
-
-`list limit`
-
-`list range 25-04-2026 27-04-2026`
-`list range 25-04-2026 27-04-2026 /deadline`
-
-*Note*: 
-
-- *CategoryIndex is not needed for limit*
-- *Start and End are only applicable for Deadline and Event*
-- *Add tasktype after end if you want to see only deadline or event*
+---
 
 #### List Event: `list event`
 Format: list [KEYWORD] [TYPE]
@@ -423,14 +456,12 @@ Example: `find assignment`
 Sets a limit on the following: task,year,...
 Allow user to set the limit for the following: `Task`, `Year`
 
-Format:
-
-limit [KEYWORD] [INT]
+Format: `limit [KEYWORD] [INT]`
 
 - KEYWORD: `task`, `year`
 - INT: Integer value
 
-Example:
+Examples:
 
 `limit task 5` 
 
@@ -587,7 +618,7 @@ is located in the other computer.
 | priority    | `priority todo [CATEGORYINDEX] [TODOINDEX] [PRIORITYVALUE]`                                                                                                                                                                                                                                                                                                         |
 | sort        | `sort todo [CATEGORYINDEX]`                                                                                                                                                                                                                                                                                                                                         |
 | find        | `find [SUBSTRING]`                                                                                                                                                                                                                                                                                                                                                  |
-| limit       | `limit [keyword]`                                                                                                                                                                                                                                                                                                                                                   |
+| limit       | `limit [KEYWORD] [INT]`                                                                                                                                                                                                                                                                                                                                             |
 | reminder    | `reminder`                                                                                                                                                                                                                                                                                                                                                          |
 | course      | `course add [COURSE_CODE]`, `course delete [COURSE_CODE]`, `course list`, <br/> `course view [COURSE_CODE]`, `course add-assessment [COURSE_CODE] /n [NAME] /w [WEIGHTAGE] /ms [MAX_SCORE]`, <br/> `course score [COURSE_CODE] /n [NAME] /s [SCORE]`, `course delete-assessment [COURSE_CODE] /n [NAME]`                                                            |                                                                                                           |
 | undo        | `undo`                                                                                                                                                                                                                                                                                                                                                              |
