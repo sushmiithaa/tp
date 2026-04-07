@@ -3,10 +3,8 @@
 actor User
 
 participant ":UniTasker" as UniTasker
-box "command"
 participant ":CommandParser" as CommandParser
-participant ":ReorderCommand" as ReorderCommand
-end box
+
 participant ":UI" as UI
 participant ":Storage" as Storage
 participant ":AppContainer" as AppContainer
@@ -17,39 +15,39 @@ activate UniTasker
 UniTasker -> CommandParser : parse(line)
 activate CommandParser
 
-CommandParser -> ReorderCommand : create
-activate ReorderCommand
-ReorderCommand --> CommandParser
-deactivate ReorderCommand
+create "command:ReorderCommand" as command
+CommandParser -> command : create
+activate command
+command --> CommandParser
+deactivate command
 
 CommandParser --> UniTasker :
 deactivate CommandParser
 
-UniTasker -> ReorderCommand : execute(container)
-activate ReorderCommand
+UniTasker -> command : execute(container)
+activate command
 
-
-
-ReorderCommand -> AppContainer : reorderTodo(...)
+command -> AppContainer : reorderTodo(...)
 activate AppContainer
-AppContainer --> ReorderCommand :
+AppContainer --> command :
 deactivate AppContainer
 
-ReorderCommand -> ReorderCommand : saveData()
-activate ReorderCommand
-ReorderCommand -> Storage : save(categories)
+command -> command : saveData()
+activate command
+command -> Storage : save(categories)
 activate Storage
-Storage --> ReorderCommand :
+Storage --> command :
 deactivate Storage
-deactivate ReorderCommand
+deactivate command
 
-ReorderCommand -> UI : printReordered(...)
+command -> UI : printReordered(...)
 activate UI
-UI --> ReorderCommand
+UI --> command
 deactivate UI
 
-ReorderCommand --> UniTasker :
-deactivate ReorderCommand
+command --> UniTasker :
+deactivate command
+destroy command
 
 UniTasker --> User :
 deactivate UniTasker

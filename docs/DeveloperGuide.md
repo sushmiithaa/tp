@@ -44,6 +44,8 @@ The bulk of the app's work is done by the following components:
 
 **AppContainer component**
 
+![AppContainerClassDiagram]()
+
 The `AppContainer` consists of the following:
 
 - `CategoryList categories` – stores all categories and their associated tasks (todos, deadlines, events)
