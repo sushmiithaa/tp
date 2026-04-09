@@ -288,7 +288,7 @@ class DukeTest {
     }
 
     @Test
-    public void parseAndExecute_batchMark_deleteMarked_deleteTodoAll_success() {
+    public void parseAndExecute_batchMarkDeleteMarkedDeleteTodoAll_success() {
         CategoryList categories = new CategoryList();
 
         AppContainer container = new AppContainer(

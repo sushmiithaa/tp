@@ -2,7 +2,6 @@ package seedu.duke.ui;
 
 import java.util.ArrayList;
 
-import seedu.duke.task.Event;
 import seedu.duke.task.Todo;
 import seedu.duke.tasklist.CategoryList;
 
