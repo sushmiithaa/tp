@@ -23,15 +23,17 @@ public class EventList extends TaskList<Event> {
     public String toString() {
         String result = "";
         Set<Integer> printedGroups = new HashSet<>();
+        int uiIndex = 0;
         for (int i = 0; i < tasks.size(); i++) {
             Event event = tasks.get(i);
             assert event != null : "Event must exist";
             if (event.getIsRecurring() && !printedGroups.contains(event.getRecurringGroupId())) {
-                result = result + (i+1) + ". " + (event.toStringRecurring()) + System.lineSeparator();
+                result = result + (uiIndex+1) + ". " + (event.toStringRecurringList()) + System.lineSeparator();
                 printedGroups.add(event.getRecurringGroupId());
+                uiIndex++;
             } else if (!event.getIsRecurring()) {
-                result = result + (i+1) + ". " + (event.toString()) + System.lineSeparator();
-
+                result = result + (uiIndex+1) + ". " + (event.toString()) + System.lineSeparator();
+                uiIndex++;
             }
         }
         return result;
