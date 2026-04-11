@@ -39,10 +39,10 @@ public class TaskUi {
                 taskString);
     }
 
-    public static void printFindResults(CategoryList foundTasks) {
+    public static void printFindResults(String foundTasks) {
         GeneralUi.printDottedLine();
         System.out.println("Matching tasks found: " + System.lineSeparator());
-        System.out.print(foundTasks.toString());
+        System.out.print(foundTasks);
         GeneralUi.printDottedLine();
     }
 
