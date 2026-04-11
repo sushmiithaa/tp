@@ -27,10 +27,10 @@ public class EventList extends TaskList<Event> {
             Event event = tasks.get(i);
             assert event != null : "Event must exist";
             if (event.getIsRecurring() && !printedGroups.contains(event.getRecurringGroupId())) {
-                result = result + (i+1) + ". " + (event.toStringRecurring()) + System.lineSeparator();
+                result = result + (i + 1) + ". " + (event.toStringRecurring()) + System.lineSeparator();
                 printedGroups.add(event.getRecurringGroupId());
             } else if (!event.getIsRecurring()) {
-                result = result + (i+1) + ". " + (event.toString()) + System.lineSeparator();
+                result = result + (i + 1) + ". " + (event.toString()) + System.lineSeparator();
 
             }
         }
@@ -69,13 +69,13 @@ public class EventList extends TaskList<Event> {
     /**
      * Adds recurring weekly events (batching adding of events) based on user specified end duration.
      *
-     * @param event The Event object.
+     * @param event    The Event object.
      * @param calendar The Calendar object to save the event.
-     * @param date The end date to stop adding recurring events within that group.
-     * @param months The number of months to add weekly recurring events
+     * @param date     The end date to stop adding recurring events within that group.
+     * @param months   The number of months to add weekly recurring events
      */
-    public void addRecurringWeeklyEvent(Event event, Calendar calendar, LocalDateTime date,int months) {
-        assert (calendar != null): "There must be an instance of calendar";
+    public void addRecurringWeeklyEvent(Event event, Calendar calendar, LocalDateTime date, int months) {
+        assert (calendar != null) : "There must be an instance of calendar";
         assert (event != null) : "Event must exist";
         LocalDateTime boundaryDateTime = null;
         if (date == null && months == 0) {
@@ -90,9 +90,9 @@ public class EventList extends TaskList<Event> {
         int recurringGroupId = event.getRecurringGroupId();
         String eventDescription = event.getDescription();
 
-        while (currentFromDateTime.isBefore(boundaryDateTime)){
-            Event newEvent = new Event(eventDescription,currentFromDateTime,
-                    currentToDateTime,true,recurringGroupId);
+        while (currentFromDateTime.isBefore(boundaryDateTime)) {
+            Event newEvent = new Event(eventDescription, currentFromDateTime,
+                    currentToDateTime, true, recurringGroupId);
             tasks.add(newEvent);
             calendar.registerTask(newEvent);
             currentFromDateTime = currentFromDateTime.plusDays(7);
@@ -100,6 +100,7 @@ public class EventList extends TaskList<Event> {
 
         }
     }
+
     /**
      * Sorts recurring events based on the day of the week and then its start time.
      */

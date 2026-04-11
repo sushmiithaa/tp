@@ -104,6 +104,7 @@ public class AddCommand implements Command {
                     "add category [description]");
         }
     }
+
     //@@author marken9
     private void handleAddTodo(AppContainer container) {
         try {
@@ -194,7 +195,7 @@ public class AddCommand implements Command {
 
             if (!raw.contains(" /by ")) {
                 ErrorUi.printMissingByKeyword();
-                 return null;
+                return null;
             }
 
             String[] parts = raw.split(" /by ");
@@ -289,6 +290,7 @@ public class AddCommand implements Command {
             return null;
         }
     }
+
     //@@author sushmiithaa
     private LocalDate handleAddRecurring(AppContainer container) {
         try {
@@ -326,11 +328,11 @@ public class AddCommand implements Command {
             }
             String[] eventTimeDetails = eventDetails[INDEX_OF_DEADLINE_EVENT_DATETIME].split(" /to ");
 
-            String[] fromComponents = getFromToComponents(eventTimeDetails,true);
+            String[] fromComponents = getFromToComponents(eventTimeDetails, true);
             String fromDayOfWeek = fromComponents[INDEX_OF_DAY_EVENTS].trim();
             String fromTime = fromComponents[INDEX_OF_TIME_EVENTS].trim();
 
-            String[] toComponents = getFromToComponents(eventTimeDetails,false);
+            String[] toComponents = getFromToComponents(eventTimeDetails, false);
             String toDayOfWeek = toComponents[INDEX_OF_DAY_EVENTS].trim();
             String toTime = toComponents[INDEX_OF_TIME_EVENTS].trim();
 
@@ -403,7 +405,7 @@ public class AddCommand implements Command {
     }
 
     private static void validateEvents(AppContainer container, LocalDateTime from, int eventCategoryIndex,
-        String desc, LocalDateTime to) throws OverlapEventException {
+                                       String desc, LocalDateTime to) throws OverlapEventException {
         TaskValidator.validateWorkload(
                 container.categories(), from, container.getDailyTaskLimit());
         TaskValidator.validateUniqueTask(
@@ -413,8 +415,8 @@ public class AddCommand implements Command {
     }
 
     //@@author sushmiithaa
-    private String[] getFromToComponents(String[] eventTimeDetails,boolean isFrom) throws UniTaskerException {
-        String[] components = eventTimeDetails[(isFrom ? 0:1)].trim().split("\\s+");
+    private String[] getFromToComponents(String[] eventTimeDetails, boolean isFrom) throws UniTaskerException {
+        String[] components = eventTimeDetails[(isFrom ? 0 : 1)].trim().split("\\s+");
         if (isFrom) {
             if (components.length != MIN_LENGTH_OF_TOFROM_COMPONENTS) {
                 throw new UniTaskerException("Missing start day or time after '/from'. "

@@ -104,12 +104,20 @@ public class TaskValidator {
             Category cat = categories.getCategory(i);
             for (int j = 0; j < cat.getDeadlineList().getSize(); j++) {
                 if (cat.getDeadlineList().get(j).getBy().toLocalDate().equals(targetDate)) {
-                    if (cat.getDeadlineList().get(j).getIsDone()) { done++; } else { undone++; }
+                    if (cat.getDeadlineList().get(j).getIsDone()) {
+                        done++;
+                    } else {
+                        undone++;
+                    }
                 }
             }
             for (int j = 0; j < cat.getEventList().getSize(); j++) {
                 if (cat.getEventList().get(j).getFrom().toLocalDate().equals(targetDate)) {
-                    if (cat.getEventList().get(j).getIsDone()) { done++; } else { undone++; }
+                    if (cat.getEventList().get(j).getIsDone()) {
+                        done++;
+                    } else {
+                        undone++;
+                    }
                 }
             }
         }

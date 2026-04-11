@@ -139,7 +139,7 @@ public class DeleteCommand implements Command {
                 }
                 Map<Integer, List<EventReference>> mapOccurrence = container.categories().getActiveDisplayMap();
                 List<EventReference> categoryMapOccurrence = mapOccurrence.get(categoryIndex);
-                if (categoryMapOccurrence == null){
+                if (categoryMapOccurrence == null) {
                     throw new UniTaskerException("There has been a mismatch between the categoryIndex used for " +
                             "list occurrence\nand delete occurrence. Please use the correct categoryIndex");
                 }
@@ -167,7 +167,7 @@ public class DeleteCommand implements Command {
         } catch (IndexOutOfBoundsException e) {
             ErrorUi.printIndexNotFound();
         } catch (UniTaskerException e) {
-            ErrorUi.printError("Error occurred ",e.getMessage());
+            ErrorUi.printError("Error occurred ", e.getMessage());
         } catch (Exception e) {
             ErrorUi.printError("An unexpected error occurred", e.getMessage());
         }

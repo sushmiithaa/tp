@@ -80,7 +80,7 @@ public class Category {
     public void addRecurringWeeklyEvent(Event event, Calendar calendar, LocalDateTime date, int months) {
         assert (event != null) : "Event must not be null";
         assert (calendar != null) : "Calendar must not be null";
-        eventList.addRecurringWeeklyEvent(event, calendar,date,months);
+        eventList.addRecurringWeeklyEvent(event, calendar, date, months);
     }
 
     public void deleteEvent(int index) {
@@ -113,6 +113,7 @@ public class Category {
     }
 
     //@@author WenJunYu5984
+
     /**
      * Sorts all deadlines in this category by their due date in ascending order.
      */
