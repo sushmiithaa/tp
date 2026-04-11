@@ -1,6 +1,8 @@
 package seedu.duke.util;
 
 import seedu.duke.exception.IllegalDateException;
+import seedu.duke.tasklist.Category;
+import seedu.duke.tasklist.CategoryList;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -150,6 +152,38 @@ public class DateUtils {
                             "(e.g. Nov has 30 days, check leap years for Feb 29).");
                 }
                 throw new IllegalDateException("Invalid format! Use dd-MM-yyyy HHmm or dd-MM-yyyy");
+            }
+        }
+    }
+
+    /**
+     * Checks that no existing deadline or event falls beyond the proposed end year.
+     * Call this before committing a reduction to the end year setting.
+     */
+    public static void validateEndYearReduction(CategoryList categories, int year) {
+        for (int i = 0; i < categories.getAmount(); i++) {
+            Category cat = categories.getCategory(i);
+
+            for (int j = 0; j < cat.getDeadlineList().getSize(); j++) {
+                int deadlineYear = cat.getDeadlineList().get(j).getBy().getYear();
+                if (deadlineYear > year) {
+                    throw new IllegalArgumentException(
+                            "Cannot reduce end year to " + year + ": deadline '"
+                                    + cat.getDeadlineList().get(j).getDescription()
+                                    + "' is scheduled in " + deadlineYear + "."
+                    );
+                }
+            }
+
+            for (int j = 0; j < cat.getEventList().getSize(); j++) {
+                int eventYear = cat.getEventList().get(j).getTo().getYear();
+                if (eventYear > year) {
+                    throw new IllegalArgumentException(
+                            "Cannot reduce end year to " + year + ": event '"
+                                    + cat.getEventList().get(j).getDescription()
+                                    + "' runs until " + eventYear + "."
+                    );
+                }
             }
         }
     }

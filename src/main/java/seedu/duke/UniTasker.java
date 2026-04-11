@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 
 import seedu.duke.calender.Calendar;
 import seedu.duke.storage.Storage;
-import seedu.duke.tasklist.Category;
 import seedu.duke.tasklist.CategoryList;
 
 import static seedu.duke.storage.Storage.loadSettings;
@@ -27,7 +26,7 @@ import seedu.duke.command.CommandParser;
 import seedu.duke.command.ExitCommand;
 
 import seedu.duke.appcontainer.AppContainer;
-import seedu.duke.util.TaskValidator;
+import seedu.duke.util.DateUtils;
 
 public class UniTasker {
 
@@ -119,7 +118,7 @@ public class UniTasker {
 
     public static boolean setEndYear(int year) {
         try {
-            TaskValidator.validateEndYearReduction(categories, year);
+            DateUtils.validateEndYearReduction(categories, year);
         } catch (IllegalArgumentException e) {
             ErrorUi.printError(e.getMessage());
             return false;
