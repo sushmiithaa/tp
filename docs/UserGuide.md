@@ -819,6 +819,21 @@ Format:
 
 ---
 
+### Saving and loading the data
+UniTasker data is saved automatically to the same folder after any change to the data.
+If the save data file exists, data will also be loaded automatically into the program.
+
+---
+
+### Editing the data file
+UniTasker data is saved automatically as text files within the same folder as the JAR file.
+Advanced users are welcome to update data directly by editing the text files.
+
+*Note*: If changes to the data file makes its format invalid, data loading can behave unexpectedly.
+For example, invalid lines may result in wrong information loaded or the entire line being skipped completely.
+
+---
+
 ## FAQ
 
 **Q**: How do I transfer my data to another computer? 
@@ -832,7 +847,7 @@ is located in the other computer.
 |-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | help        | `help`                                                                                                                                                                                                                                                                                                                           |
 | add         | `add category [DESC]`, `add todo [CATEGORYINDEX] [DESCRIPTION] /p [PRIORITYVALUE]`, <br/> `add deadline [CATEGORYINDEX] [DESCRIPTION] /by [DATE TIME]`, <br/> `add event [CATEGORYINDEX] [DESCRIPTION] /from [START] /to [END]`, <br/> `add recurring [CATEGORYINDEX] weekly event [DESCRIPTION] /from [DAY TIME /to [DAY TIME]` |
-| delete      | `delete [KEYWORD] [CATEGORYINDEX] [TASKINDEX]`, `delete [KEYWORD] [CATEGORYINDEX] all`, `delete marked`                                                                                                                                                                                                                           |
+| delete      | `delete [KEYWORD] [CATEGORYINDEX] [TASKINDEX]`, `delete [KEYWORD] [CATEGORYINDEX] all`, `delete marked`                                                                                                                                                                                                                          |
 | list        | `list category [CATEGORYINDEX]`, `list todo`, `list deadline`, `list limit`, `list range [START] [END] [FLAG]`, <br/> `list event [TYPE]`, `list recurring`, `list occurence [CATEGORYINDEX] [UIINDEX]`                                                                                                                          |
 | mark/unmark | `mark [TASKTYPE] [CATEGORYINDEX] [TASKINDEX]`, `unmark [TASKTYPE] [CATEGORYINDEX] [TASKINDEX]`                                                                                                                                                                                                                                   |
 | reorder     | `reorder category [FROMINDEX] [TOINDEX]`, `reorder todo [CATEGORYINDEX] [FROMINDEX] [TOINDEX]`                                                                                                                                                                                                                                   |
