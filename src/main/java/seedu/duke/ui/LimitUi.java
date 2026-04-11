@@ -22,7 +22,8 @@ public class LimitUi {
 
     public static void printDailyTaskSummary(LocalDate date, int done, int undone) {
         GeneralUi.printDottedLine();
-        System.out.println(" Tasks on " + date.format(java.time.format.DateTimeFormatter.ofPattern("dd-MM-uuuu").withResolverStyle(ResolverStyle.STRICT))
+        System.out.println(" Tasks on " + date.format(java.time.format.DateTimeFormatter.ofPattern("dd-MM-uuuu")
+                .withResolverStyle(ResolverStyle.STRICT))
                 + ": " + undone + " incomplete, " + done + " completed.");
         GeneralUi.printDottedLine();
     }
