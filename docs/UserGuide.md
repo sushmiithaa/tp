@@ -52,6 +52,8 @@ Command Line Interface (CLI).
     - [Delete assessment: `course delete-assessment`](#delete-assessment-course-delete-assessment)
   - [Undo: `undo`](#undo-command-undo)
   - [Exiting the program: `exit`](#exit-program-exit)
+  - [Saving and loading the data](#saving-and-loading-the-data)
+  - [Editing the data file](#editing-the-data-file)
 
 - [FAQ](#faq)
 - [Command Summary](#command-summary)
@@ -826,8 +828,8 @@ If the save data file exists, data will also be loaded automatically into the pr
 ---
 
 ### Editing the data file
-UniTasker data is saved automatically as text files within the same folder as the JAR file.
-Advanced users are welcome to update data directly by editing the text files.
+UniTasker data is saved as text files in the same directory as the JAR file.  
+Advanced users may edit these files directly, but should copy existing entries to maintain the correct format.
 
 *Note*: If changes to the data file makes its format invalid, data loading can behave unexpectedly.
 For example, invalid lines may result in wrong information loaded or the entire line being skipped completely.
