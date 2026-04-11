@@ -12,6 +12,9 @@ public class UnknownCommand implements Command {
 
     @Override
     public void execute(AppContainer container) {
+        if (commandWord.isEmpty()) {
+            return;
+        }
         ErrorUi.printUnknownCommandHint(commandWord);
     }
 }
