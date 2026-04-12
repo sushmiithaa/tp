@@ -428,6 +428,10 @@ The following class diagram shows the structure of the undo feature:
 - Only course commands that modify data are pushed to the stack (`add`, `delete`, `add-assessment`)
 - Undo history is cleared on app exit
 
+**Current Limitation**
+Undo is currently supported for course commands only. Other commands such as `add todo`,
+`add deadline` and `add event` are not undoable. This is a known limitation planned as a future enhancement.
+
 ---
 
 ## Product scope
