@@ -33,6 +33,7 @@ General contributions:
 - Added Limit command for year and task
 - Added Task Validation for all tasks
 - Added Date Validation for all timed task
+- Added update for number of active timed task on each day
 
 **Testing**
 
