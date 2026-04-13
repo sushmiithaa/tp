@@ -5,7 +5,12 @@ import seedu.duke.course.Course;
 import seedu.duke.course.CourseList;
 
 public class CourseUi {
-    //Formats the full list of courses for display.
+    /**
+     * Formats the full list of courses for display.
+     *
+     * @param courseList the list of all courses to display
+     * @return a formatted string listening to all courses
+     */
     public static String formatCourseList(CourseList courseList) {
         if (courseList.isEmpty()) {
             return "No courses found.";
@@ -26,6 +31,9 @@ public class CourseUi {
     /**
      * Formats a detailed view of a single course, including all assessments
      * and current grading progress.
+     *
+     * @param course the course to format
+     * @return a formatted string showing course details and assessment breakdown
      */
     public static String formatCourse(Course course) {
         StringBuilder sb = new StringBuilder();
@@ -62,8 +70,12 @@ public class CourseUi {
         return sb.toString();
     }
 
-
-    //Formats a short success message for a generic course operation.
+    /**
+     * Formats a short success message for a generic course operation.
+     *
+     * @param message the message to format
+     * @return the formatted message string
+     */
     public static String formatMessage(String message) {
         return message;
     }
