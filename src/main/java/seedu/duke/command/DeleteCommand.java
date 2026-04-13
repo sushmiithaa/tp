@@ -182,7 +182,7 @@ public class DeleteCommand implements Command {
             refreshCalendar(container.categories(), container.calendar());
         } catch (UniTaskerException e) {
             ErrorUi.printError(e.getMessage());
-        } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             ErrorUi.printCommandFailed("delete command",
                     "Invalid or insufficient arguments.",
                     "delete [keyword] [catIndex] [taskIndex]\n" +
@@ -190,8 +190,10 @@ public class DeleteCommand implements Command {
                             "delete [keyword] [catIndex] all\n" +
                             DELETE_COMMAND_SPACE_FORMATTING +
                             "delete marked");
+        } catch (NumberFormatException e) {
+            ErrorUi.printInvalidNumber();
         } catch (IndexOutOfBoundsException e) {
-            ErrorUi.printError("Index out of range. Use list command to check valid indexes.");
+            ErrorUi.printIndexNotFound();
         } catch (Exception e) {
             ErrorUi.printCommandFailed("delete command",
                     e.getMessage(),
