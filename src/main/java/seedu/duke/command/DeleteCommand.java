@@ -70,6 +70,9 @@ public class DeleteCommand implements Command {
                 CategoryUi.printAllMarkedDeleted();
                 break;
             case "category":
+                if (container.categories().getCategories().isEmpty()) {
+                    throw new UniTaskerException("No categories available to delete.");
+                }
                 int deleteIndex = Integer.parseInt(sentence[INDEX_OF_CATEGORY_TO_DELETE]) - 1;
                 String catName = container.categories().getCategory(deleteIndex).getName();
                 container.categories().deleteCategory(deleteIndex);
@@ -80,6 +83,9 @@ public class DeleteCommand implements Command {
                     container.categories().deleteAllTodos(categoryIndex);
                     DeadlineUi.printItemDeleted("todo", null, categoryIndex);
                 } else {
+                    if (container.categories().getCategory(categoryIndex).getTodoList().isEmpty()) {
+                        throw new UniTaskerException("No todos available to delete.");
+                    }
                     int todoIndex = Integer.parseInt(sentence[INDEX_OF_TASK_TO_DELETE]) - 1;
                     TaskUi.printTodoDeleted(container.categories()
                             .getCategory(categoryIndex)
@@ -93,6 +99,9 @@ public class DeleteCommand implements Command {
                     container.categories().deleteAllDeadlines(categoryIndex);
                     DeadlineUi.printItemDeleted("deadline", null, categoryIndex);
                 } else {
+                    if (container.categories().getCategory(categoryIndex).getDeadlineList().isEmpty()) {
+                        throw new UniTaskerException("No deadlines available to delete.");
+                    }
                     int deadlineIndex = Integer.parseInt(sentence[INDEX_OF_TASK_TO_DELETE]) - 1;
                     relevantDate = container.categories().getCategory(categoryIndex)
                             .getDeadline(deadlineIndex).getBy().toLocalDate();
@@ -218,14 +227,20 @@ public class DeleteCommand implements Command {
 
             CommandSupport.saveData(container, relevantDate);
             refreshCalendar(container.categories(), container.calendar());
+        } catch (UniTaskerException e) {
+            ErrorUi.printError(e.getMessage());
         } catch (ArrayIndexOutOfBoundsException e) {
             ErrorUi.printCommandFailed("delete command",
-                    "Insufficient arguments.",
+                    "Invalid or insufficient arguments.",
                     "delete [keyword] [catIndex] [taskIndex]\n" +
                             DELETE_COMMAND_SPACE_FORMATTING +
                             "delete [keyword] [catIndex] all\n" +
                             DELETE_COMMAND_SPACE_FORMATTING +
                             "delete marked");
+        } catch (NumberFormatException e) {
+            ErrorUi.printInvalidNumber();
+        } catch (IndexOutOfBoundsException e) {
+            ErrorUi.printIndexNotFound();
         } catch (Exception e) {
             ErrorUi.printCommandFailed("delete command",
                     e.getMessage(),

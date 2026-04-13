@@ -3,21 +3,24 @@
 actor User
 
 participant ":UniTasker" as UniTasker
-participant ":Command" as Command
+participant ":CommandParser" as CommandParser
+participant ":CourseCommand" as CourseCommand
 participant ":CourseParser" as CourseParser
 participant ":CourseManager" as CourseManager
 participant ":CourseStorage" as CourseStorage
-participant ":CourseUi" as CourseUi
 
-User -> UniTasker : "course add CS2113"
+User -> UniTasker : "course add <course_code>"
 activate UniTasker
 
-UniTasker -> Command : parse(line)
-activate Command
+UniTasker -> CommandParser : parse(line)
+activate CommandParser
+CommandParser --> UniTasker : CourseCommand
+deactivate CommandParser
 
-Command -> Command : execute(container)
+UniTasker -> CourseCommand : execute(container)
+activate CourseCommand
 
-Command -> CourseParser : parse(courseCommand)
+CourseCommand -> CourseParser : parse(courseCommand)
 activate CourseParser
 
 CourseParser -> CourseParser : handleAddCourse(args)
@@ -33,16 +36,11 @@ deactivate CourseStorage
 CourseManager --> CourseParser :
 deactivate CourseManager
 
-CourseParser --> Command :
+CourseParser --> CourseCommand :
 deactivate CourseParser
 
-Command -> CourseUi : printCourseResult(result)
-activate CourseUi
-CourseUi --> Command :
-deactivate CourseUi
-
-Command --> UniTasker :
-deactivate Command
+CourseCommand --> UniTasker :
+deactivate CourseCommand
 
 UniTasker --> User :
 deactivate UniTasker

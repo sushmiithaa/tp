@@ -3,19 +3,41 @@ package seedu.duke.command;
 import seedu.duke.course.CourseManager;
 import seedu.duke.exception.CourseException;
 
+/**
+ * Parses course-related sub-commands entered by the user and delegates
+ * the corresponding operations to CourseManager.
+ * Handles commands: add, delete, list, view, add-assessment, score, delete-assessment.
+ */
 public class CourseParser {
 
     private final CourseManager courseManager;
 
+    /**
+     * Constructs a CourseParser with the given CourseManager.
+     *
+     * @param courseManager the CourseManager to delegate course operations to
+     */
     public CourseParser(CourseManager courseManager) {
         this.courseManager = courseManager;
     }
 
+    /**
+     * Returns the CourseManager used by this parser.
+     *
+     * @return the CourseManager instance
+     */
     public CourseManager getCourseManager() {
         return courseManager;
     }
 
-    //Parses the user input after the keyword "course".
+    /**
+     * Parses the user input after the "course" keyword and executes
+     * the corresponding course operation.
+     *
+     * @param input the sub-command string after "course"
+     * @return result message to display to the user
+     * @throws CourseException if the sub-command is unknown, empty, or the operation fails
+     */
     public String parse(String input) throws CourseException {
 
         if (input == null || input.trim().isEmpty()) {
@@ -120,6 +142,15 @@ public class CourseParser {
         return courseManager.deleteAssessment(courseCode, name);
     }
 
+    /**
+     * Parses a string value as a double for numeric course fields.
+     * Validates that the result is a finite number to prevent NaN or Infinity inputs.
+     *
+     * @param value     the string to parse
+     * @param fieldName the name of the field, used in error messages
+     * @return the parsed double value
+     * @throws CourseException if the value is not a valid finite number
+     */
     private double parseDouble(String value, String fieldName) throws CourseException {
         try {
             double result = Double.parseDouble(value.trim());
