@@ -24,6 +24,11 @@ class "CourseCommand" as CourseCommand {
     - line: String
     - undoAction: String
     - undoArgument: String
+    - savedCourse: Course
+    - executedSuccessfully: boolean
+    - previousScore: double
+    - scoreCourseCode: String
+    - scoreAssessmentName: String
     + execute(container: AppContainer)
     + undo(container: AppContainer)
     + isUndoable(): boolean

@@ -37,6 +37,7 @@ note right of CourseParser
     - "add" -> "delete"
     - "delete" -> "add"
     - "add-assessment" -> "delete-assessment"
+    - "score" -> revert to previous score
 end note
 
 CourseParser -> CourseManager : execute reverse operation(...)
