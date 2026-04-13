@@ -121,6 +121,19 @@ public class ListCommand implements Command {
     //@@author WenJunYu5984
     private void handleListRange(AppContainer container) {
         try {
+            if (sentence.length < LIST_RANGE_MIN_LENGTH) {
+                ErrorUi.printRangeMissingDates();
+                return;
+            }
+
+            // reject if user provided times alongside dates
+            if (sentence[INDEX_OF_LIST_RANGE_ENDTIME].matches("\\d{4}") ||
+                    (sentence.length > LIST_RANGE_MIN_LENGTH &&
+                            sentence[INDEX_OF_LIST_RANGE_TASKTYPE].matches("\\d{4}"))) {
+                ErrorUi.printUseDateOnly();
+                return;
+            }
+
             LocalDate start = DateUtils.parseLocalDateNoValidation(sentence[INDEX_OF_LIST_RANGE_STARTTIME]);
             LocalDate end = DateUtils.parseLocalDateNoValidation(sentence[INDEX_OF_LIST_RANGE_ENDTIME]);
 
@@ -128,15 +141,24 @@ public class ListCommand implements Command {
                 throw new IllegalArgumentException("Start date must be earlier than End date");
             }
 
-            if (sentence.length > LIST_RANGE_MIN_LENGTH
-                    && sentence[INDEX_OF_LIST_RANGE_TASKTYPE].equalsIgnoreCase("/deadline")) {
-                container.calendar().displaySpecificTypeInRange(start, end, Deadline.class);
-            } else if (sentence.length > LIST_RANGE_MIN_LENGTH
-                    && sentence[INDEX_OF_LIST_RANGE_TASKTYPE].equalsIgnoreCase("/event")) {
-                container.calendar().displaySpecificTypeInRange(start, end, Event.class);
+            if (sentence.length > LIST_RANGE_MIN_LENGTH) {
+                String taskType = sentence[INDEX_OF_LIST_RANGE_TASKTYPE];
+                if (taskType.matches("\\d{4}")) {
+                    ErrorUi.printUseDateOnly();
+                    return;
+                }
+                if (sentence[INDEX_OF_LIST_RANGE_TASKTYPE].equalsIgnoreCase("/deadline")) {
+                    container.calendar().displaySpecificTypeInRange(start, end, Deadline.class);
+                } else if (sentence[INDEX_OF_LIST_RANGE_TASKTYPE].equalsIgnoreCase("/event")) {
+                    container.calendar().displaySpecificTypeInRange(start, end, Event.class);
+                } else {
+                    ErrorUi.printError("Unknown flag '" + taskType + "'. " +
+                            "Use: list range dd-MM-yyyy dd-MM-yyyy [/deadline | /event]");
+                }
             } else {
                 container.calendar().displayRange(start, end);
             }
+
         } catch (DateTimeParseException e) {
             ErrorUi.printRangeDateFormatError();
         } catch (ArrayIndexOutOfBoundsException e) {

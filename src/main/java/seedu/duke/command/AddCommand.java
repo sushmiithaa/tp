@@ -202,12 +202,20 @@ public class AddCommand implements Command {
             int deadlineCatIdx = CommandSupport.getCategoryIndex(container, sentence);
             String raw = String.join(" ", Arrays.copyOfRange(sentence, INDEX_OF_TASK_INFO, sentence.length));
 
-            if (!raw.contains(" /by ")) {
-                ErrorUi.printMissingByKeyword();
+            String[] parts = raw.split(" /by ");
+
+            if (parts.length < 2) {
+                if (!raw.contains("/by")) {
+                    ErrorUi.printMissingByKeyword();
+                } else {
+                    if (raw.trim().startsWith("/by")) {
+                        ErrorUi.printMissingDescription();
+                    } else {
+                        ErrorUi.printMissingDates();
+                    }
+                }
                 return null;
             }
-
-            String[] parts = raw.split(" /by ");
             String description = parts[INDEX_OF_DEADLINE_EVENT_DESCRIPTION].trim();
             String dateString = parts[INDEX_OF_DEADLINE_EVENT_DATETIME].trim();
 
@@ -229,6 +237,13 @@ public class AddCommand implements Command {
             }
             return by.toLocalDate();
 
+        } catch (NumberFormatException e) {
+            ErrorUi.printError("Invalid category index '" + sentence[CommandSupport.INDEX_OF_CATEGORY] + "'. " +
+                    "Check if input has a valid category index.");
+            return null;
+        } catch (IndexOutOfBoundsException e) {
+            ErrorUi.printError("Missing category index or invalid category index. Input a valid category index");
+            return null;
         } catch (IllegalDateException | DuplicateTaskException | DuplicateCategoryException | HighWorkloadException e) {
             ErrorUi.printError(e.getMessage());
             return null;

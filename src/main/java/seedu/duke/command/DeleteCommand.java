@@ -122,6 +122,7 @@ public class DeleteCommand implements Command {
                         relevantDate = eventToDelete.getFrom().toLocalDate();
                         container.categories().deleteEvent(ref.categoryIndex, ref.eventIndex);
                         EventUi.printNormalEventDeleted(eventToDelete);
+                        container.categories().setCurrentView("NO_VIEW");
                     }
                 }
                 break;

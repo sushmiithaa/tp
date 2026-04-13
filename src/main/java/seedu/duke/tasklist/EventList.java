@@ -20,18 +20,21 @@ public class EventList extends TaskList<Event> {
         super();
     }
 
-    public String toString() {
+    public String toString(boolean viewType) {
         String result = "";
         Set<Integer> printedGroups = new HashSet<>();
+        int uiIndex = 0;
         for (int i = 0; i < tasks.size(); i++) {
             Event event = tasks.get(i);
             assert event != null : "Event must exist";
             if (event.getIsRecurring() && !printedGroups.contains(event.getRecurringGroupId())) {
-                result = result + (i + 1) + ". " + (event.toStringRecurring()) + System.lineSeparator();
+                result = result + (viewType? uiIndex+1: i+1) + ". "
+                        + (event.toStringRecurring()) + System.lineSeparator();
                 printedGroups.add(event.getRecurringGroupId());
+                uiIndex++;
             } else if (!event.getIsRecurring()) {
-                result = result + (i + 1) + ". " + (event.toString()) + System.lineSeparator();
-
+                result = result + (viewType? uiIndex+1 : i+1) + ". " + (event.toString()) + System.lineSeparator();
+                uiIndex++;
             }
         }
         return result;
@@ -91,10 +94,12 @@ public class EventList extends TaskList<Event> {
         String eventDescription = event.getDescription();
 
         while (currentFromDateTime.isBefore(boundaryDateTime)) {
-            Event newEvent = new Event(eventDescription, currentFromDateTime,
-                    currentToDateTime, true, recurringGroupId);
-            tasks.add(newEvent);
-            calendar.registerTask(newEvent);
+            if (!(currentFromDateTime.isBefore(LocalDateTime.now()))) {
+                Event newEvent = new Event(eventDescription, currentFromDateTime,
+                        currentToDateTime, true, recurringGroupId);
+                tasks.add(newEvent);
+                calendar.registerTask(newEvent);
+            }
             currentFromDateTime = currentFromDateTime.plusDays(7);
             currentToDateTime = currentToDateTime.plusDays(7);
 

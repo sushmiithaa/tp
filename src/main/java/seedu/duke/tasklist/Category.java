@@ -13,6 +13,7 @@ import seedu.duke.exception.UniTaskerException;
 
 public class Category {
     public static final String DOTTED_LINE = "______________________________________________________________________";
+    public static final boolean IS_COLLAPSED_VIEW = true;
 
     private String name;
     private TodoList todoList;
@@ -221,7 +222,7 @@ public class Category {
         result += "Deadlines:" + System.lineSeparator() + DOTTED_LINE + System.lineSeparator()
                 + deadlineList.toString() + System.lineSeparator();
         result += "Events:" + System.lineSeparator() + DOTTED_LINE + System.lineSeparator()
-                + eventList.toString() + System.lineSeparator();
+                + eventList.toString(IS_COLLAPSED_VIEW) + System.lineSeparator();
 
         return result;
     }
