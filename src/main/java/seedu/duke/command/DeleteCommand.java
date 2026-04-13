@@ -31,8 +31,8 @@ public class DeleteCommand implements Command {
     public static final String COLLAPSED_EVENT_VIEW = "EVENT";
     public static final String NON_RECURRING_EVENTS_VIEW = "NORMAL_EVENT_ONLY";
     public static final String RECURRING_EVENTS_VIEW = "RECURRING_OVERVIEW";
-    public static final String RECURRING_GROUP_MESSAGE = "This is a recurring group\nTo delete the specific occurrence, please "
-            + "use one of these commands first: \n- 'list event /all'\n- 'list occurrence ";
+    public static final String RECURRING_GROUP_MESSAGE = "This is a recurring group\nTo delete the specific " +
+            "occurrence, please use one of these commands first: \n- 'list event /all'\n- 'list occurrence ";
 
     private final String[] sentence;
 
@@ -136,32 +136,7 @@ public class DeleteCommand implements Command {
                         relevantDate = eventToDelete.getFrom().toLocalDate();
                         container.categories().deleteEvent(ref.categoryIndex, ref.eventIndex);
                         EventUi.printNormalEventDeleted(eventToDelete);
-                        switch (currentView) {
-                        case COLLAPSED_EVENT_VIEW:
-                            if (container.categories().hasEvents(categoryIndex)) {
-                                GeneralUi.printMessage(container.categories()
-                                        .getAllEvents(false, false));
-                            } else {
-                                GeneralUi.printMessage("No more events.");
-                            }
-                            break;
-                        case EVENT_EXPANDED_VIEW:
-                            if (container.categories().hasEvents(categoryIndex)) {
-                                GeneralUi.printMessage(container.categories()
-                                        .getAllEvents(true, false));
-                            } else {
-                                GeneralUi.printMessage("No more events.");
-                            }
-                            break;
-                        case NON_RECURRING_EVENTS_VIEW:
-                            if (container.categories().hasNonRecurringEvents(categoryIndex)) {
-                                GeneralUi.printMessage(container.categories()
-                                        .getAllEvents(false, true));
-                            } else {
-                                GeneralUi.printMessage("No more non-recurring events.");
-                            }
-                            break;
-                        }
+                        displayUpdatedView(container, currentView, categoryIndex);
                     }
                 }
                 break;
@@ -249,6 +224,39 @@ public class DeleteCommand implements Command {
                             "delete [keyword] [catIndex] all\n" +
                             DELETE_COMMAND_SPACE_FORMATTING +
                             "delete marked");
+        }
+    }
+
+    private static void displayUpdatedView(AppContainer container, String currentView, int categoryIndex) {
+        switch (currentView) {
+        case COLLAPSED_EVENT_VIEW:
+            if (container.categories().hasEvents(categoryIndex)) {
+                GeneralUi.printMessage(container.categories()
+                        .getAllEvents(false, false));
+            } else {
+                GeneralUi.printMessage("No more events.");
+            }
+            break;
+        case EVENT_EXPANDED_VIEW:
+            if (container.categories().hasEvents(categoryIndex)) {
+                GeneralUi.printMessage(container.categories()
+                        .getAllEvents(true, false));
+            } else {
+                GeneralUi.printMessage("No more events.");
+            }
+            break;
+        case NON_RECURRING_EVENTS_VIEW:
+            if (container.categories().hasNonRecurringEvents(categoryIndex)) {
+                GeneralUi.printMessage(container.categories()
+                        .getAllEvents(false, true));
+            } else {
+                GeneralUi.printMessage("No more non-recurring events.");
+            }
+            break;
+        default:
+            GeneralUi.printMessage("");
+            break;
+
         }
     }
 

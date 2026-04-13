@@ -238,10 +238,11 @@ Format: `delete [EVENTTYPE] [CATEGORYINDEX] [UIINDEX]`
 - CATEGORYINDEX: Integer value up to number of categories added
 - UIINDEX: follow the UI index for its respective list type:
 - Sequence:
-  - do `list occurrence [CATEGORYINDEX] [UIINDEX]` → then `delete occurrence [CATEGORYINDEX] [UIINDEX]`
+  - do `list event` → then `list occurrence [CATEGORYINDEX] [UIINDEX]` → then `delete occurrence [CATEGORYINDEX] [UIINDEX]`
   - do `list recurring` → then `delete recurring [CATEGORYINDEX] [UIINDEX]` 
   - do `list event` or `list event /all` or `list event /normal` → then `delete event [CATEGORYINDEX] [UIINDEX]`
 
+Sample portion of outputs:
 ````
 ______________________________________________________________________
 list event
@@ -352,9 +353,11 @@ Format: `mark [EVENTTYPE] [CATEGORYINDEX] [UIINDEX]...`
 - CATEGORYINDEX: Integer value up to number of categories added
 - UIINDEX: follow the one or more UI index(es) for its respective list type:
   - Sequence:
-  - do `list occurrence [CATEGORYINDEX] [UIINDEX]` → then `mark occurrence [CATEGORYINDEX] [UIINDEX]`
+  - do `list event`→ then `list occurrence [CATEGORYINDEX] [UIINDEX]` → then `mark occurrence [CATEGORYINDEX] [UIINDEX]`
   - do `list event` or `list event /all` or `list event /normal`
-    → then `mark event [CATEGORYINDEX] [UIINDEX]` 
+    → then `mark event [CATEGORYINDEX] [UIINDEX]`
+
+Sample portion of output:
 
 ````
 ______________________________________________________________________
@@ -443,9 +446,10 @@ Format: `unmark [EVENTTYPE] [CATEGORYINDEX] [UIINDEX]...`
 - CATEGORYINDEX: Integer value up to number of categories added
 - UIINDEX: follow the one or more UI index(es) for its respective list type:
   - Sequence:
-  - do `list occurrence [CATEGORYINDEX] [UIINDEX]` -> then `unmark occurrence [CATEGORYINDEX] [UIINDEX]` 
+  - do `list event`→ then `list occurrence [CATEGORYINDEX] [UIINDEX]` -> then `unmark occurrence [CATEGORYINDEX] [UIINDEX]` 
   - do `list event` or `list event /all` or `list event /normal` -> then `unmark event [CATEGORYINDEX] [UIINDEX]`
 
+Sample portion of output:
 ````
 list event
 ______________________________________________________________________
@@ -574,6 +578,8 @@ Format: `list event [TYPE]`
 - TYPE: `/normal`, `/all`
 
 `list event /normal` shows non-recurring events
+
+`list event /all` shows expanded view of recurring events
 
 `list event` shows both non-recurring events and recurring events (collapsed view)
 
