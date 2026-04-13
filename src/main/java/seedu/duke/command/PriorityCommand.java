@@ -33,21 +33,22 @@ public class PriorityCommand implements Command {
         case "todo":
             try {
                 if (sentence.length < PRIORITY_TODO_ARGLENGTH) {
-                    ErrorUi.printMissingArgs("\nCorrect format: priority todo [catIndex] [todoIndex] [priority]");
-                    return;
+                    throw new UniTaskerException("Insufficient arguments.");
                 }
                 int categoryIndex = CommandSupport.getCategoryIndex(container, sentence);
                 int todoIndex = Integer.parseInt(sentence[INDEX_OF_TODO]) - 1;
                 int priority = Integer.parseInt(sentence[INDEX_OF_PRIORITY]);
                 if (priority < PRIORITY_LEVEL_LOWER_LIMIT || priority > PRIORITY_LEVEL_UPPER_LIMIT) {
-                    throw new UniTaskerException("Out of priority range allowed (0-5)");
+                    throw new UniTaskerException("Out of priority range allowed (0-5).");
                 }
                 container.categories().setTodoPriority(categoryIndex, todoIndex, priority);
                 TaskUi.printPrioritySet(
                         container.categories().getCategory(categoryIndex).getTodo(todoIndex).getDescription(),
                         priority);
             } catch (Exception e) {
-                ErrorUi.printCommandFailed("priority todo", e.getMessage(), null);
+                ErrorUi.printCommandFailed("priority todo",
+                        e.getMessage(),
+                        "priority todo [catIndex] [todoIndex] [priorityValue]");
             }
             break;
         default:
