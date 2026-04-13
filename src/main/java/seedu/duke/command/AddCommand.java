@@ -47,6 +47,16 @@ public class AddCommand implements Command {
     public static final int INDEX_OF_WORD_WEEKLY = 3;
     public static final int INDEX_OF_WORD_EVENT = 4;
 
+    public static final String ADD_TODO_FORMAT = "add todo [categoryIndex] [description] /p [priority]";
+    public static final String ADD_TODO = "add todo";
+    public static final String MISSING_CATEGORY_INDEX = "Category index is missing.";
+    public static final String EMPTY_DESCRIPTION = "Empty description.";
+    public static final String MISSING_PRIORITY_AFTER_P_FLAG = "Missing priority after /p.";
+    public static final String PRIORITY_MUST_BE_AN_INTEGER = "Priority must be an integer.";
+    public static final String PRIORITY_OUT_OF_RANGE = "Priority must be between 0 and 5.";
+    public static final String ADD_CATEGORY_FORMAT = "add category [description]";
+    public static final String ADD_CATEGORY = "add category";
+
     private final String[] sentence;
 
     public AddCommand(String[] sentence) {
@@ -89,7 +99,7 @@ public class AddCommand implements Command {
     private void handleAddCategory(AppContainer container) {
         try {
             if (sentence.length < ADD_CATEGORY_MIN_LENGTH) {
-                throw new UniTaskerException("Empty description.");
+                throw new UniTaskerException(EMPTY_DESCRIPTION);
             }
             String[] nameArr = Arrays.copyOfRange(sentence, INDEX_OF_CATEGORY_INFO, sentence.length);
             String name = String.join(" ", nameArr).trim();
@@ -98,10 +108,10 @@ public class AddCommand implements Command {
             container.categories().addCategory(name);
             CategoryUi.printCategoryAdded(name);
         } catch (DuplicateCategoryException e) {
-            ErrorUi.printCommandFailed("add category", e.getMessage(), null);
+            ErrorUi.printCommandFailed(ADD_CATEGORY, e.getMessage(), null);
         } catch (Exception e) {
-            ErrorUi.printCommandFailed("add category", e.getMessage(),
-                    "add category [description]");
+            ErrorUi.printCommandFailed(ADD_CATEGORY, e.getMessage(),
+                    ADD_CATEGORY_FORMAT);
         }
     }
 
@@ -111,7 +121,7 @@ public class AddCommand implements Command {
             int todoCatIdx = CommandSupport.getCategoryIndex(container, sentence);
 
             if (sentence.length < ADD_TODO_MIN_LENGTH) {
-                throw new UniTaskerException("Empty description.");
+                throw new UniTaskerException(EMPTY_DESCRIPTION);
             }
 
             int priority = 0;
@@ -134,10 +144,10 @@ public class AddCommand implements Command {
             } else {
                 // add todo with priority
                 if (priorityFlagIndex == INDEX_OF_TASK_INFO) {
-                    throw new UniTaskerException("Empty description.");
+                    throw new UniTaskerException(EMPTY_DESCRIPTION);
                 }
                 if (priorityFlagIndex == sentence.length - 1) {
-                    throw new UniTaskerException("Missing priority after /p.");
+                    throw new UniTaskerException(MISSING_PRIORITY_AFTER_P_FLAG);
                 }
 
                 String[] descriptionArr = Arrays.copyOfRange(sentence, INDEX_OF_TASK_INFO, priorityFlagIndex);
@@ -146,20 +156,17 @@ public class AddCommand implements Command {
                 try {
                     priority = Integer.parseInt(sentence[priorityFlagIndex + 1]);
                 } catch (NumberFormatException e) {
-                    throw new UniTaskerException("Priority must be an integer.");
+                    throw new UniTaskerException(PRIORITY_MUST_BE_AN_INTEGER);
                 }
 
                 if (priority < 0 || priority > 5) {
-                    throw new UniTaskerException("Priority must be between 0 and 5.");
+                    throw new UniTaskerException(PRIORITY_OUT_OF_RANGE);
                 }
 
-                if (priorityFlagIndex != sentence.length - 2) {
-                    throw new UniTaskerException("Invalid format. Priority should be the last argument.");
-                }
             }
 
             if (description.isEmpty()) {
-                throw new UniTaskerException("Empty description.");
+                throw new UniTaskerException(EMPTY_DESCRIPTION);
             }
 
             TaskValidator.validateUniqueTask(container.categories(), todoCatIdx, description);
@@ -178,12 +185,13 @@ public class AddCommand implements Command {
             TaskUi.printTodoAdded(container.categories().getCategory(todoCatIdx).getName(),
                     container.categories().getCategory(todoCatIdx).getTodo(newTodoIndex),
                     newTodoIndex + 1);
-
+        } catch (IndexOutOfBoundsException e) {
+            ErrorUi.printCommandFailed(ADD_TODO, MISSING_CATEGORY_INDEX, ADD_TODO_FORMAT);
         } catch (DuplicateTaskException e) {
-            ErrorUi.printCommandFailed("add todo", e.getMessage(), null);
+            ErrorUi.printCommandFailed(ADD_TODO, e.getMessage(), null);
         } catch (Exception e) {
-            ErrorUi.printCommandFailed("add todo", e.getMessage(),
-                    "add todo [categoryIndex] [description] /p [priority]");
+            ErrorUi.printCommandFailed(ADD_TODO, e.getMessage(),
+                    ADD_TODO_FORMAT);
         }
     }
 
