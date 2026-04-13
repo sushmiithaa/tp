@@ -292,6 +292,68 @@ public class CommandHelp {
     }
 
     /**
+     * Get the complete command summary table (from User Guide).
+     */
+    public static String getCommandSummary() {
+        return DOTTED_LINE + "\n" +
+                "COMMAND SUMMARY\n" +
+                "\n" +
+                "TASK MANAGEMENT:\n" +
+                "  add todo <CAT_IDX> <DESC> [/p <PRIORITY>]\n" +
+                "    Example: add todo 1 Review notes\n" +
+                "  add deadline <CAT_IDX> <DESC> /by <DATE> [<TIME>]\n" +
+                "    Example: add deadline 1 Submit essay /by 25-05-2026 1800\n" +
+                "  add event <CAT_IDX> <DESC> /from <DATE> <TIME> /to <DATE> <TIME>\n" +
+                "    Example: add event 1 Meeting /from 25-05-2026 1400 /to 25-05-2026 1600\n" +
+                "  add recurring <CAT_IDX> weekly event <DESC> /from <DAY> <TIME> /to <DAY> <TIME>\n" +
+                "    Example: add recurring 1 weekly event Lecture /from Monday 1400 /to Monday 1530\n" +
+                "  mark/unmark <TASKTYPE> <CAT_IDX> <IDX>\n" +
+                "    Example: mark todo 1 1\n" +
+                "  priority todo <CAT_IDX> <IDX> <PRIORITY>\n" +
+                "    Example: priority todo 1 2 4\n" +
+                "  sort todo <CAT_IDX>              - Sort by priority\n" +
+                "  reorder <TYPE> <CAT_IDX> <FROM> <TO>\n" +
+                "    Example: reorder todo 1 1 3\n" +
+                "\n" +
+                "LISTING:\n" +
+                "  list category [<IDX>]\n" +
+                "  list todo                        - List all todos\n" +
+                "  list deadline                    - List all deadlines\n" +
+                "  list event [/all | /normal]      - List events\n" +
+                "  list recurring                   - List recurring events\n" +
+                "  list occurrence <CAT_IDX> <IDX>  - List occurrences\n" +
+                "  list range <START> <END> [/TYPE] - List by date range\n" +
+                "  list limit                       - Show current limits\n" +
+                "\n" +
+                "DELETION:\n" +
+                "  delete category <IDX>\n" +
+                "  delete <TASKTYPE> <CAT_IDX> <IDX>\n" +
+                "  delete <TASKTYPE> <CAT_IDX> all  - Delete all of type\n" +
+                "\n" +
+                "COURSE TRACKER:\n" +
+                "  course add <CODE>\n" +
+                "  course delete <CODE>\n" +
+                "  course list                      - List all courses\n" +
+                "  course view <CODE>               - View assessments\n" +
+                "  course add-assessment <CODE> /n <NAME> /w <WEIGHTAGE> /ms <MAX_SCORE>\n" +
+                "    Example: course add-assessment CS2113 /n Finals /w 40 /ms 100\n" +
+                "  course score <CODE> /n <NAME> /s <SCORE>\n" +
+                "  course delete-assessment <CODE> /n <NAME>\n" +
+                "\n" +
+                "SYSTEM:\n" +
+                "  find <KEYWORD>                   - Search tasks\n" +
+                "  limit task <NUM>                 - Set daily task limit (default: 8)\n" +
+                "  limit year <NUM>                 - Set end year (default: 2030)\n" +
+                "  reminder                         - Show pending tasks\n" +
+                "  undo                             - Undo last command\n" +
+                "  exit                             - Quit UniTasker\n" +
+                "\n" +
+                "ALIASES: a=add, d=delete, l=list, m=mark, u=unmark, p=priority, s=sort, f=find\n" +
+                "DATE FORMAT: dd-MM-yyyy | TIME FORMAT: HHmm (24-hour) | DAYS: Monday-Sunday\n" +
+                DOTTED_LINE;
+    }
+
+    /**
      * Route help requests to appropriate method.
      */
     public static String getHelp(String topic) {
@@ -307,9 +369,10 @@ public class CommandHelp {
         case "add" -> getAddCommandHelp();
         case "delete" -> getDeleteCommandHelp();
         case "list" -> getListCommandHelp();
+        case "summary", "commands", "cheatsheet" -> getCommandSummary();
         default -> "Unknown help topic: '" + topic + "'\n" +
                 "Try: help, help task, help deadline, help event," +
-                " help course, help add, help delete, help list\n" +
+                " help course, help add, help delete, help list, help commands\n" +
                 DOTTED_LINE;
         };
     }

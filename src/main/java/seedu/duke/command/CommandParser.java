@@ -12,6 +12,9 @@ public class CommandParser {
         String[] sentence = line.trim().split("\\s+");
         String commandWord = sentence[INDEX_OF_COMMANDTYPE];
 
+        // Map aliases to full command names
+        commandWord = mapAliasToCommand(commandWord);
+
         switch (commandWord) {
         case "add":
             return new AddCommand(sentence);
@@ -46,5 +49,23 @@ public class CommandParser {
         default:
             return new UnknownCommand(sentence[0]);
         }
+    }
+
+    /**
+     * Maps command aliases to their full command names.
+     * Supports: a=add, d=delete, l=list, m=mark, u=unmark, p=priority, s=sort, f=find
+     */
+    private String mapAliasToCommand(String commandWord) {
+        return switch (commandWord) {
+        case "a" -> "add";
+        case "d" -> "delete";
+        case "l" -> "list";
+        case "m" -> "mark";
+        case "u" -> "unmark";
+        case "p" -> "priority";
+        case "s" -> "sort";
+        case "f" -> "find";
+        default -> commandWord;
+        };
     }
 }
