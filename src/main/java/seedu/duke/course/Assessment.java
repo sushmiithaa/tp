@@ -67,6 +67,7 @@ public class Assessment {
     }
     //records the student's score
 
+    //@@author michaelshyam1
     public void resetScore() {
         this.scoreObtained = -1;
     }

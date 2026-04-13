@@ -6,6 +6,11 @@ import seedu.duke.exception.CourseException;
 import seedu.duke.ui.ErrorUi;
 import seedu.duke.ui.LimitUi;
 
+/**
+ * Represents a command that handles all course-related operations.
+ * Supports adding, deleting, listing, viewing courses and assessments, recording scores for the assessments
+ * and undoing the course actions
+ */
 public class CourseCommand implements Command {
     private final String line;
     private String undoAction;
@@ -16,10 +21,22 @@ public class CourseCommand implements Command {
     private String scoreCourseCode;
     private String scoreAssessmentName;
 
+    /**
+     * Constructs a CourseCommand with the full input line.
+     *
+     * @param line the full user input line starting with "course"
+     */
     public CourseCommand(String line) {
         this.line = line;
     }
 
+    /**
+     * Executes the course command by parsing the sub-command and delegating
+     * to CourseParser. Stores undo state before execution where necessary.
+     * Only marks the command as successfully executed if no exception is thrown.
+     *
+     * @param container the AppContainer providing access to course data
+     */
     @Override
     public void execute(AppContainer container) {
         try {
@@ -64,6 +81,13 @@ public class CourseCommand implements Command {
 
     }
 
+    /**
+     * Returns true if this command supports undo.
+     * Only successful add, delete, add-assessment and score commands are undoable.
+     * Failed commands are never pushed to the undo stack.
+     *
+     * @return true if the command executed successfully and is undoable
+     */
     @Override
     public boolean isUndoable() {
         return executedSuccessfully && (
@@ -74,6 +98,13 @@ public class CourseCommand implements Command {
                 );
     }
 
+    /**
+     * Reverses the last undoable course command on the undo stack.
+     * Restores the previous application state depending on the action taken.
+     * Can be called multiple times to undo successive course commands.
+     *
+     * @param container the AppContainer providing access to course data
+     */
     @Override
     public void undo(AppContainer container) {
         if (undoAction == null) {
