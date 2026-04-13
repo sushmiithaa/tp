@@ -31,6 +31,7 @@ General contributions:
 - Implement the general structure for storage class, handling loading, saving and updating of all tasks, taskLimit and endYear.
 - Implement logging configuration
 - Added Limit command for year and task
+- Added Range command to view timed task within certain dates
 - Added Task Validation for all tasks
 - Added Date Validation for all timed task
 - Added update for number of active timed task on each day
