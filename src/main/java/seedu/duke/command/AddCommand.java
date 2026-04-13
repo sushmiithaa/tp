@@ -55,6 +55,9 @@ public class AddCommand implements Command {
     public static final String MISSING_PRIORITY_AFTER_P_FLAG = "Missing priority after /p.";
     public static final String PRIORITY_MUST_BE_AN_INTEGER = "Priority must be an integer.";
     public static final String PRIORITY_OUT_OF_RANGE = "Priority must be between 0 and 5.";
+    public static final String REGEX_FROMTO = "(?s).*\\S+.*\\s+/from\\s+\\S+.*\\s+/to\\s+\\S+.*";
+    public static final String REGEX_FROM = "\\s+/from\\s+";
+    public static final String REGEX_TO = "\\s+/to\\s+";
 
     private final String[] sentence;
 
@@ -264,21 +267,21 @@ public class AddCommand implements Command {
 
 
             if (raw.stripLeading().startsWith("/from")) {
-                throw new UniTaskerException("Empty description! Include the event description");
+                throw new UniTaskerException(EMPTY_DESCRIPTION);
             }
 
             String[] preValidationSplit = raw.split("/from");
             if (preValidationSplit.length > 0 && preValidationSplit[0].trim().isEmpty()) {
-                throw new UniTaskerException("Event description should not be empty");
+                throw new UniTaskerException(EMPTY_DESCRIPTION);
             }
 
-            if (!raw.matches("(?s).*\\S+.*\\s+/from\\s+\\S+.*\\s+/to\\s+\\S+.*")) {
+            if (!raw.matches(REGEX_FROMTO)) {
                 throw new UniTaskerException("Missing or invalid format. "
                         + "Expected: add event [index] [desc] /from dd-MM-yyyy HHmm /to dd-MM-yyyy HHmm");
             }
 
-            String[] eventDetails = raw.split("\\s+/from\\s+");
-            String[] eventTimeDetails = eventDetails[INDEX_OF_DEADLINE_EVENT_DATETIME].split("\\s+/to\\s+");
+            String[] eventDetails = raw.split(REGEX_FROM);
+            String[] eventTimeDetails = eventDetails[INDEX_OF_DEADLINE_EVENT_DATETIME].split(REGEX_TO);
 
             LocalDateTime from = DateUtils.parseDateTime(eventTimeDetails[INDEX_OF_DAY_EVENTS]);
             LocalDateTime to = DateUtils.parseDateTime(eventTimeDetails[INDEX_OF_TIME_EVENTS]);
@@ -328,11 +331,11 @@ public class AddCommand implements Command {
 
             String[] preValidationSplit = raw.split("/from");
             if (preValidationSplit.length > 0 && preValidationSplit[0].trim().isEmpty()) {
-                throw new UniTaskerException("Event description should not be empty");
+                throw new UniTaskerException(EMPTY_DESCRIPTION);
             }
 
             if (raw.stripLeading().startsWith("/from")) {
-                throw new UniTaskerException("Empty description! Include the event description");
+                throw new UniTaskerException(EMPTY_DESCRIPTION);
             }
             if (!raw.contains(" /from ")) {
                 throw new UniTaskerException("Missing '/from'. "
