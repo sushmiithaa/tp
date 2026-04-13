@@ -1,4 +1,4 @@
-# michaelshyam - Project Portfolio Page
+# michaelshyam1 - Project Portfolio Page
 
 **Project: UniTasker**
 
@@ -16,7 +16,7 @@ Given below are my contributions to the project.
     - Highlights: Supports adding/deleting courses, adding/deleting assessments, recording scores, and viewing weighted grade breakdowns. Course data is persisted to `courses.txt` across sessions.
 
 - Added the Undo feature (course commands)
-    - What it does: Allows users to reverse the most recent course command that modified data (e.g. `course add`, `course delete`, `course add-assessment`).
+    - What it does: Allows users to reverse the most recent course command that modified data (e.g. `course add`, `course delete`, `course add-assessment`, `course score`).
     - Justification: Users may accidentally add or delete a course or assessment. Undo provides a quick way to revert mistakes
     - Highlights: Implemented using the Command pattern with a history stack in `UniTasker`. Extended the `Command` interface with default `undo()` and `isUndoable()` methods so existing commands are unaffected.
 
@@ -30,9 +30,7 @@ General contributions:
 
 **Testing**
 
-Added JUnit tests for the following classes:
-
-- `CourseManager`, `Course`, `Assessment`, `CourseStorage`, `CourseUndoTest`
+Added JUnit tests for `CourseManager`, `Course`, `Assessment`, `CourseStorage`, and `undo` behaviour via CourseUndoTest.
 
 **Developer Guide Contributions**
 
