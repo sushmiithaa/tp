@@ -28,7 +28,8 @@ public class EventList extends TaskList<Event> {
             Event event = tasks.get(i);
             assert event != null : "Event must exist";
             if (event.getIsRecurring() && !printedGroups.contains(event.getRecurringGroupId())) {
-                result = result + (viewType? uiIndex+1: i+1) + ". " + (event.toStringRecurring()) + System.lineSeparator();
+                result = result + (viewType? uiIndex+1: i+1) + ". "
+                        + (event.toStringRecurring()) + System.lineSeparator();
                 printedGroups.add(event.getRecurringGroupId());
                 uiIndex++;
             } else if (!event.getIsRecurring()) {
@@ -99,8 +100,8 @@ public class EventList extends TaskList<Event> {
                 tasks.add(newEvent);
                 calendar.registerTask(newEvent);
             }
-                currentFromDateTime = currentFromDateTime.plusDays(7);
-                currentToDateTime = currentToDateTime.plusDays(7);
+            currentFromDateTime = currentFromDateTime.plusDays(7);
+            currentToDateTime = currentToDateTime.plusDays(7);
 
         }
     }
