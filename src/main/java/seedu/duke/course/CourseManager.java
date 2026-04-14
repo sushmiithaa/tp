@@ -10,7 +10,7 @@ public class CourseManager {
     private static final double MAX_WEIGHTAGE = 100;
     private static final double MIN_WEIGHTAGE = 0;
     private static final double MIN_SCORE = 0;
-
+  
     //stores all courses
     private final CourseList courseList;
     //handles saving and loading courses
