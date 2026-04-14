@@ -1,3 +1,4 @@
+//@@author michaelshyam1
 package seedu.duke.course;
 
 import seedu.duke.exception.CourseException;
@@ -186,3 +187,4 @@ public class CourseManager {
         courseStorage.save(courseList);
     }
 }
+//@@author
