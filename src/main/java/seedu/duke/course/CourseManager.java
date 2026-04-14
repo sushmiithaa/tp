@@ -66,10 +66,10 @@ public class CourseManager {
         if (assessmentName == null || assessmentName.trim().isEmpty()) {
             throw new CourseException("Assessment name cannot be empty.");
         }
-        if (weightage <= 0) {
+        if (weightage <= MIN_WEIGHTAGE) {
             throw new CourseException("Weightage must be greater than 0.");
         }
-        if (maxScore <= 0) {
+        if (maxScore <= MIN_SCORE) {
             throw new CourseException("Maximum score must be greater than 0.");
         }
 
